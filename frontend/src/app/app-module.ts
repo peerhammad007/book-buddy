@@ -13,6 +13,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { TokenInterceptor } from './core/auth/token.interceptor';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { AddBookComponent } from './features/books/add-book/add-book.component';
+import { ManageBooksComponent } from './features/books/manage-books.component/manage-books.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { AddBookComponent } from './features/books/add-book/add-book.component';
     ForgotPasswordComponent,
     DashboardComponent,
     NavbarComponent,
-    AddBookComponent
+    AddBookComponent,
+    ManageBooksComponent
   ],
   imports: [
     BrowserModule,
