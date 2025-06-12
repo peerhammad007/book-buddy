@@ -93,7 +93,7 @@ exports.deleteBook = async (req, res) => {
       return res.status(403).json({ message: 'Unauthorized' });
     }
 
-    await book.remove();
+    await Book.deleteOne({ _id: book._id });
     res.json({ message: 'Book deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Failed to delete book', error: err.message });
