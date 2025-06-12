@@ -4,12 +4,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing-module';
+import { RouterModule } from '@angular/router';
 import { App } from './app';
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { TokenInterceptor } from './core/auth/token.interceptor';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { AddBookComponent } from './features/books/add-book/add-book.component';
 
 @NgModule({
   declarations: [
@@ -17,13 +20,16 @@ import { TokenInterceptor } from './core/auth/token.interceptor';
     LoginComponent,
     RegisterComponent,
     ForgotPasswordComponent,
-    DashboardComponent
+    DashboardComponent,
+    NavbarComponent,
+    AddBookComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
