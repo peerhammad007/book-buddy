@@ -1,0 +1,25 @@
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="container mt-5 p-4 shadow-sm rounded bg-white"
+  style="max-width: 400px;">
+  <h3 class="text-center mb-4">Login</h3>
+
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input id="email" formControlName="email" type="email" class="form-control" placeholder="Enter your email" />
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input id="password" formControlName="password" type="password" class="form-control"
+      placeholder="Enter your password" />
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid">Login</button>
+
+  <div class="text-center mt-3">
+    <p>Don't have an account? <a routerLink="/register">Register</a></p>
+    
+  </div>
+
+
+  <p *ngIf="errorMessage" class="text-danger mt-3 text-center">{{ errorMessage }}</p>
+</form>

@@ -1,0 +1,47 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="container mt-5 p-4 shadow-sm rounded bg-white"
+  style="max-width: 500px;">
+  <h2 class="text-center mb-4">Register</h2>
+
+  <div class="mb-3">
+    <label for="name" class="form-label">Name</label>
+    <input id="name" formControlName="name" type="text" class="form-control" placeholder="Enter your name" />
+  </div>
+
+  <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input id="email" formControlName="email" type="email" class="form-control" placeholder="Enter your email" />
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label">Password</label>
+    <input id="password" formControlName="password" type="password" class="form-control"
+      placeholder="Enter your password" />
+  </div>
+
+  <div class="form-check mb-3">
+    <input id="isLender" type="checkbox" formControlName="isLender" class="form-check-input" />
+    <label for="isLender" class="form-check-label">Register as Lender</label>
+  </div>
+
+  <div class="mb-3">
+    <label for="bio" class="form-label">Bio</label>
+    <textarea id="bio" formControlName="bio" class="form-control" rows="3"
+      placeholder="Tell us about yourself"></textarea>
+  </div>
+
+  <div class="mb-3">
+    <label for="profileImg" class="form-label">Profile Image URL</label>
+    <input id="profileImg" formControlName="profileImg" type="text" class="form-control"
+      placeholder="Paste image URL" />
+  </div>
+
+  <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">Register</button>
+
+  <div class="text-center mt-3">
+    <p>Already have an account? <a routerLink="/login">Login</a></p>
+    
+  </div>
+
+
+  <p *ngIf="errorMessage" class="text-danger mt-3 text-center">{{ errorMessage }}</p>
+</form>

@@ -1,0 +1,21 @@
+<div *ngIf="loading">Loading dashboard...</div>
+
+<div *ngIf="!loading && user">
+  <h2>Welcome, {{ user.name }}!</h2>
+
+  <div class="dashboard-info">
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Role:</strong> {{ user.isLender ? 'Lender' : 'Borrower' }}</p>
+    <p *ngIf="user.bio"><strong>Bio:</strong> {{ user.bio }}</p>
+  </div>
+
+  <div class="dashboard-actions">
+    <h3>Quick Actions</h3>
+    <ul>
+      <li><a routerLink="/books">Browse Books</a></li>
+      <li *ngIf="user.isLender"><a routerLink="/books/add">Add a Book</a></li>
+      <li><a routerLink="/borrow/track">Track Borrowed Books</a></li>
+      <li><a routerLink="/profile">View Profile</a></li>
+    </ul>
+  </div>
+</div>
