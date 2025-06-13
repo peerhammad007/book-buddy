@@ -6,11 +6,14 @@
       <li class="nav-item">
         <a class="nav-link" routerLink="/dashboard">Dashboard</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/books">Books</a>
+      <li class="nav-item" *ngIf="user?.isLender">
+        <a class="nav-link" routerLink="/books/add">➕ Add a Book</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/profile">Profile</a>
+        <a class="nav-link" routerLink="/books/manage" *ngIf="user?.isLender">🗂️ Manage Books</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/borrow/track">📦 Track Borrowed Books</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" (click)="logout()" style="cursor: pointer;">Logout</a>
