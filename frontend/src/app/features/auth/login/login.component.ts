@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/auth/auth.service';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { UserService } from '../../../core/services/user.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   errorMessage: string = '';
@@ -22,13 +22,19 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit(): void {
+
+    if (this.authService.isAuthenticated()) {
+      this.router.navigate(['/dashboard']);
+    }
+
+  }
+
   onSubmit(): void {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
-          console.log(res);
-          
-          this.userService.setUser(res); 
+          this.userService.setUser(res);
           this.router.navigate(['/dashboard'])
         },
         error: (err) => {

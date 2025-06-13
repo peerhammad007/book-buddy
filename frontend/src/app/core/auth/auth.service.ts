@@ -10,13 +10,13 @@ import { User } from '../models/user.model';
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/auth`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   login(credentials: { email: string; password: string }): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/login`, credentials).pipe(
       tap(user => {
-        if (user.token) {
-          localStorage.setItem('token', user.token);
+        if (user) {
+          localStorage.setItem('user', JSON.stringify(user));
         }
       })
     );
@@ -31,15 +31,23 @@ export class AuthService {
   }
 
   logout(): void {
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
   }
 
   getToken(): string | null {
-    return localStorage.getItem('token');
+    const userStr = localStorage.getItem('user');
+    if (!userStr) return null;
+    try {
+      const user = JSON.parse(userStr);
+      return user.token || null;
+    } catch {
+      return null;
+    }
   }
 
   isAuthenticated(): boolean {
+    console.log(localStorage.getItem('token'));
+
     return !!this.getToken();
   }
 }
