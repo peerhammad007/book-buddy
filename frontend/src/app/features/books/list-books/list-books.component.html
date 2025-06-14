@@ -1,0 +1,22 @@
+<div class="container mt-5 book-list-container">
+  <h2 class="mb-4 text-center">Available Books</h2>
+
+  <!-- Bootstrap Spinner -->
+  <div *ngIf="isLoading" class="d-flex justify-content-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Book Grid -->
+  <div class="row" *ngIf="!isLoading && books.length">
+    <div class="col-md-4 mb-4" *ngFor="let book of books">
+      <app-book-card [book]="book"></app-book-card>
+    </div>
+  </div>
+
+  <!-- No Books Message -->
+  <p *ngIf="!isLoading && books.length === 0" class="text-center text-muted">
+    No books available at the moment.
+  </p>
+</div>

@@ -7,15 +7,20 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AddBookComponent } from './features/books/add-book/add-book.component';
 import { ManageBooksComponent } from './features/books/manage-books.component/manage-books.component';
 import { AuthGuard } from './core/auth/auth.guard';
+import { ListBooksComponent } from './features/books/list-books/list-books.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-  {path: 'books/add', component: AddBookComponent, canActivate: [AuthGuard]},
-  { path: 'books/manage', component: ManageBooksComponent, canActivate: [AuthGuard]}
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'books/add', component: AddBookComponent, canActivate: [AuthGuard] },
+  { path: 'books/manage', component: ManageBooksComponent, canActivate: [AuthGuard] },
+
+  { path: 'books', component: ListBooksComponent, canActivate: [AuthGuard] },
+  // { path: 'books/:id', component: BookDetailComponent, canActivate: [AuthGuard]}
+
 ];
 
 @NgModule({

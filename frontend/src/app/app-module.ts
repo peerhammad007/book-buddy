@@ -14,6 +14,8 @@ import { TokenInterceptor } from './core/auth/token.interceptor';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { AddBookComponent } from './features/books/add-book/add-book.component';
 import { ManageBooksComponent } from './features/books/manage-books.component/manage-books.component';
+import { ListBooksComponent } from './features/books/list-books/list-books.component';
+import { BookCardComponent } from './shared/components/book-card/book-card.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { ManageBooksComponent } from './features/books/manage-books.component/ma
     DashboardComponent,
     NavbarComponent,
     AddBookComponent,
-    ManageBooksComponent
+    ManageBooksComponent,
+    ListBooksComponent,
+    BookCardComponent
   ],
   imports: [
     BrowserModule,
