@@ -10,9 +10,11 @@ import { BorrowRequest } from '../../../core/models/borrow.model';
 })
 export class TrackLentBooksComponent implements OnInit {
   lentBorrows: BorrowRequest[] = [];
+  filteredLentBorrows: BorrowRequest[] = [];
   loading = true;
   error = '';
   actionMessage = '';
+  statusFilter: string = 'all';
 
   constructor(private borrowService: BorrowService) {}
 
@@ -24,10 +26,8 @@ export class TrackLentBooksComponent implements OnInit {
     this.loading = true;
     this.borrowService.getBorrowHistory().subscribe({
       next: (data) => {
-        // Only show borrows where the user is the lender and not returned
-        this.lentBorrows = data.filter(
-          b => b.lenderId
-        );
+        this.lentBorrows = data.filter(b => b.lenderId);
+        this.applyFilter();
         this.loading = false;
       },
       error: (err) => {
@@ -35,6 +35,14 @@ export class TrackLentBooksComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  applyFilter() {
+    if (this.statusFilter === 'all') {
+      this.filteredLentBorrows = this.lentBorrows;
+    } else {
+      this.filteredLentBorrows = this.lentBorrows.filter(b => b.status === this.statusFilter);
+    }
   }
 
   markAsReturned(requestId: string) {

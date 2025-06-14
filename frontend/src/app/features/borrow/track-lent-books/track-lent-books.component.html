@@ -1,16 +1,28 @@
 <div class="container mt-5">
   <h2>Your Lent Books</h2>
 
+  <div class="mb-3">
+    <label for="statusFilter" class="form-label">Filter by Status:</label>
+    <select id="statusFilter" class="form-select w-auto d-inline-block ms-2"
+      [(ngModel)]="statusFilter" (change)="applyFilter()">
+      <option value="all">All</option>
+      <option value="pending">Pending</option>
+      <option value="approved">On Loan</option>
+      <option value="rejected">Rejected</option>
+      <option value="returned">Returned</option>
+    </select>
+  </div>
+
   <div *ngIf="loading" class="text-center my-4">
     <div class="spinner-border text-primary" role="status"></div>
   </div>
 
-  <div *ngIf="!loading && lentBorrows.length === 0" class="alert alert-info mt-4">
-    You have not lent any books.
+  <div *ngIf="!loading && filteredLentBorrows.length === 0" class="alert alert-info mt-4">
+    No lent books found for this status.
   </div>
 
-  <div *ngIf="!loading && lentBorrows.length > 0" class="row mt-4">
-    <div class="col-md-6 mb-3" *ngFor="let borrow of lentBorrows">
+  <div *ngIf="!loading && filteredLentBorrows.length > 0" class="row mt-4">
+    <div class="col-md-6 mb-3" *ngFor="let borrow of filteredLentBorrows">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{ borrow.bookId.title }}</h5>

@@ -10,8 +10,10 @@ import { BorrowRequest } from '../../../core/models/borrow.model';
 })
 export class TrackBorrowsComponent implements OnInit {
   borrows: BorrowRequest[] = [];
+  filteredBorrows: BorrowRequest[] = [];
   loading = true;
   error = '';
+  statusFilter: string = 'all';
 
   constructor(private borrowService: BorrowService) {}
 
@@ -20,6 +22,7 @@ export class TrackBorrowsComponent implements OnInit {
       next: (data) => {
         // Only show borrows where the user is the borrower
         this.borrows = this.borrows = data.filter(b => b.borrowerId);
+        this.applyFilter();
         this.loading = false;
       },
       error: (err) => {
@@ -27,5 +30,13 @@ export class TrackBorrowsComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  applyFilter() {
+    if (this.statusFilter === 'all') {
+      this.filteredBorrows = this.borrows;
+    } else {
+      this.filteredBorrows = this.borrows.filter(b => b.status === this.statusFilter);
+    }
   }
 }
