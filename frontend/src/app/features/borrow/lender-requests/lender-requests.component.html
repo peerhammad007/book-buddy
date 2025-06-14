@@ -1,0 +1,31 @@
+<div class="container mt-5">
+  <h2>Borrow Requests for Your Books</h2>
+
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <div *ngIf="!loading && requests.length === 0" class="alert alert-info mt-4">
+    No pending borrow requests.
+  </div>
+
+  <div *ngIf="!loading && requests.length > 0" class="row mt-4">
+    <div class="col-md-6 mb-3" *ngFor="let req of requests">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ req.bookId.title }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">by {{ req.bookId.author }}</h6>
+          <p class="card-text">
+            <strong>Borrower:</strong> {{ req.borrowerId.name }}<br>
+            <strong>Due Date:</strong> {{ req.dates.dueDate | date:'mediumDate' }}
+          </p>
+          <button class="btn btn-success btn-sm me-2" (click)="respond(req._id, 'approved')">Approve</button>
+          <button class="btn btn-danger btn-sm" (click)="respond(req._id, 'rejected')">Reject</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="actionMessage" class="alert alert-info mt-4">{{ actionMessage }}</div>
+  <div *ngIf="error" class="alert alert-danger mt-4">{{ error }}</div>
+</div>

@@ -1,0 +1,12 @@
+<div class="container mt-5" *ngIf="book">
+  <h3>Request to Borrow: {{ book.title }}</h3>
+  <p><strong>Author:</strong> {{ book.author }}</p>
+  <p><strong>Owner:</strong> {{ book.ownerId.name }}</p>
+  <div class="mb-3">
+    <label for="dueDate" class="form-label">Due Date</label>
+    <input id="dueDate" type="date" class="form-control" [(ngModel)]="dueDate" />
+  </div>
+  <button class="btn btn-success" (click)="requestBorrow()">Send Request</button>
+  <div class="text-success mt-2" *ngIf="message">{{ message }}</div>
+  <div class="text-danger mt-2" *ngIf="error">{{ error }}</div>
+</div>

@@ -1,0 +1,41 @@
+<div class="container mt-5">
+  <h2>Your Borrowed Books</h2>
+
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status"></div>
+  </div>
+
+  <div *ngIf="!loading && borrows.length === 0" class="alert alert-info mt-4">
+    You have not borrowed any books.
+  </div>
+
+  <div *ngIf="!loading && borrows.length > 0" class="row mt-4">
+    <div class="col-md-6 mb-3" *ngFor="let borrow of borrows">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ borrow.bookId.title }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">by {{ borrow.bookId.author }}</h6>
+          <p class="card-text">
+            <strong>Status:</strong> {{ borrow.status | titlecase }}<br>
+            <strong>Due Date:</strong> {{ borrow.dates.dueDate | date:'mediumDate' }}<br>
+            <strong>Lender:</strong> {{ borrow.lenderId.name }}
+          </p>
+          <div *ngIf="borrow.status === 'approved'">
+            <span class="badge bg-success">On Loan</span>
+          </div>
+          <div *ngIf="borrow.status === 'pending'">
+            <span class="badge bg-warning text-dark">Pending Approval</span>
+          </div>
+          <div *ngIf="borrow.status === 'rejected'">
+            <span class="badge bg-danger">Rejected</span>
+          </div>
+          <div>
+            <span class="badge bg-secondary">Returned</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger mt-4">{{ error }}</div>
+</div>

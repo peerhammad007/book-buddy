@@ -12,6 +12,16 @@ exports.requestBorrow = async (req, res) => {
       return res.status(400).json({ message: 'Book not available' });
     }
 
+    // Prevent duplicate borrow requests
+    const existingRequest = await BorrowRequest.findOne({
+      bookId,
+      borrowerId: req.user._id,
+      status: { $in: ['pending', 'approved'] }
+    });
+    if (existingRequest) {
+      return res.status(400).json({ message: 'You already have a pending or active borrow request for this book.' });
+    }
+
     const borrowRequest = await BorrowRequest.create({
       bookId,
       borrowerId: req.user._id,
@@ -57,7 +67,7 @@ exports.markAsReturned = async (req, res) => {
     const request = await BorrowRequest.findById(req.params.id);
     if (!request) return res.status(404).json({ message: 'Request not found' });
 
-    if (request.borrowerId.toString() !== req.user._id.toString()) {
+    if (request.lenderId.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: 'Unauthorized' });
     }
 
