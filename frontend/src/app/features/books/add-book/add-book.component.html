@@ -1,7 +1,8 @@
 <div class="container mt-5" style="max-width: 600px;">
   <h2 class="text-center mb-4">Add a New Book</h2>
 
-  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="p-4 shadow-sm rounded bg-white">
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data"
+    class="p-4 shadow-sm rounded bg-white">
     <div class="mb-3">
       <label class="form-label">Title</label>
       <input formControlName="title" type="text" class="form-control" placeholder="Enter book title" />
@@ -27,8 +28,10 @@
       <input type="file" (change)="onFileChange($event)" class="form-control" />
     </div>
 
-    <button type="submit" class="btn btn-success w-100" [disabled]="bookForm.invalid">Add Book</button>
-
+    <button type="submit" class="btn btn-success w-100" [disabled]="bookForm.invalid">
+      {{ isEditMode ? 'Update Book' : 'Add Book' }}
+    </button>
+    
     <p class="text-success mt-3 text-center" *ngIf="successMessage">{{ successMessage }}</p>
     <p class="text-danger mt-2 text-center" *ngIf="errorMessage">{{ errorMessage }}</p>
   </form>

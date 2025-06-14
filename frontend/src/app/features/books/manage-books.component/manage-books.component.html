@@ -11,12 +11,14 @@
     You haven't listed any books yet.
   </div>
 
-  <div *ngIf="!loading && books.length > 0" class="row mt-4">
-    <div class="col-md-4 mb-3" *ngFor="let book of books">
-      <app-book-card [book]="book"></app-book-card>
-      <div class="d-flex justify-content-center gap-2 mt-2">
-        <button class="btn btn-sm btn-primary me-2" (click)="editBook(book._id)">Edit</button>
-        <button class="btn btn-sm btn-danger" (click)="deleteBook(book._id)">Delete</button>
+  <div *ngIf="!loading && books.length > 0" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-4">
+    <div class="col d-flex" *ngFor="let book of books">
+      <div class="w-100 d-flex flex-column align-items-stretch">
+        <app-book-card [book]="book"></app-book-card>
+        <div class="d-flex justify-content-center gap-2 mt-2">
+          <button class="btn btn-sm btn-primary" (click)="editBook(book._id)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteBook(book._id)">Delete</button>
+        </div>
       </div>
     </div>
   </div>

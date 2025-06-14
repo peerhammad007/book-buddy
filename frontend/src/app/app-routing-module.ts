@@ -27,6 +27,8 @@ const routes: Routes = [
   { path: 'borrow/track-borrows', component: TrackBorrowsComponent },
   { path: 'borrow/lender-requests', component: LenderRequestsComponent },
   { path: 'borrow/track-lent-books', component: TrackLentBooksComponent },
+  { path: 'books/edit/:id', component: AddBookComponent },
+
 
 
   // { path: 'books/:id', component: BookDetailComponent, canActivate: [AuthGuard]}

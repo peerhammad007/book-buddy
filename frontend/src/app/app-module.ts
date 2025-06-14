@@ -21,6 +21,7 @@ import { RequestBookComponent } from './features/borrow/request-book/request-boo
 import { TrackBorrowsComponent } from './features/borrow/track-borrows/track-borrows.component';
 import { LenderRequestsComponent } from './features/borrow/lender-requests/lender-requests.component';
 import { TrackLentBooksComponent } from './features/borrow/track-lent-books/track-lent-books.component';
+import { EditBookComponent } from './features/books/edit-book/edit-book.component';
 @NgModule({
   declarations: [
     App,
@@ -36,7 +37,8 @@ import { TrackLentBooksComponent } from './features/borrow/track-lent-books/trac
     RequestBookComponent,
     TrackBorrowsComponent,
     LenderRequestsComponent,
-    TrackLentBooksComponent
+    TrackLentBooksComponent,
+    EditBookComponent
   ],
   imports: [
     BrowserModule,
