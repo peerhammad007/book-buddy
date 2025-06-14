@@ -29,7 +29,7 @@
           <div *ngIf="borrow.status === 'rejected'">
             <span class="badge bg-danger">Rejected</span>
           </div>
-          <div>
+          <div *ngIf="borrow.status === 'returned'">
             <span class="badge bg-secondary">Returned</span>
           </div>
         </div>
