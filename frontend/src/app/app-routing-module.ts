@@ -12,6 +12,7 @@ import { RequestBookComponent } from './features/borrow/request-book/request-boo
 import { TrackBorrowsComponent } from './features/borrow/track-borrows/track-borrows.component';
 import { LenderRequestsComponent } from './features/borrow/lender-requests/lender-requests.component';
 import { TrackLentBooksComponent } from './features/borrow/track-lent-books/track-lent-books.component';
+import { ProfileComponent } from './features/profile/profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -28,7 +29,7 @@ const routes: Routes = [
   { path: 'borrow/lender-requests', component: LenderRequestsComponent },
   { path: 'borrow/track-lent-books', component: TrackLentBooksComponent },
   { path: 'books/edit/:id', component: AddBookComponent },
-
+  { path: 'profile', component: ProfileComponent },
 
 
   // { path: 'books/:id', component: BookDetailComponent, canActivate: [AuthGuard]}

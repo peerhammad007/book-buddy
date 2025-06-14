@@ -1,0 +1,25 @@
+<div class="container mt-5" style="max-width: 500px;">
+    <h2 class="mb-4 text-center">Edit Profile</h2>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data"
+        class="p-4 shadow-sm rounded bg-white">
+        <div class="mb-3 text-center">
+            <img *ngIf="user?.profileImg" [src]="getProfileImgUrl()" alt="Profile Image" class="rounded-circle mb-2"
+                style="width: 100px; height: 100px; object-fit: cover;">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input formControlName="name" type="text" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Bio</label>
+            <textarea formControlName="bio" class="form-control" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Profile Image</label>
+            <input type="file" (change)="onFileChange($event)" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Update Profile</button>
+        <div class="text-success mt-3 text-center" *ngIf="successMessage">{{ successMessage }}</div>
+        <div class="text-danger mt-2 text-center" *ngIf="errorMessage">{{ errorMessage }}</div>
+    </form>
+</div>

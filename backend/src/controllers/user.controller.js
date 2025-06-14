@@ -1,4 +1,5 @@
 const User = require('../models/user.model');
+const generateToken = require('../utils/generateToken');
 
 // @desc Get user by ID
 // @route GET /api/v1/users/:id
@@ -34,7 +35,17 @@ exports.updateUser = async (req, res) => {
     }
 
     const updatedUser = await user.save();
-    res.json(updatedUser);
+    // Generate a new token for the updated user
+    const token = generateToken(updatedUser._id);
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isLender: updatedUser.isLender,
+      bio: updatedUser.bio,
+      profileImg: updatedUser.profileImg,
+      token // <-- include the new token
+    });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
