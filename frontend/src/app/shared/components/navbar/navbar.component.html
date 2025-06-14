@@ -4,7 +4,7 @@
   <div class="collapse navbar-collapse" *ngIf="isLoggedIn()">
     <ul class="navbar-nav ms-auto">
       <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard">Dashboard</a>
+        <a class="nav-link" routerLink="/dashboard">🧭 Dashboard</a>
       </li>
       <li class="nav-item" *ngIf="user?.isLender">
         <a class="nav-link" routerLink="/books/add">➕ Add a Book</a>
@@ -13,10 +13,10 @@
         <a class="nav-link" routerLink="/books/manage" *ngIf="user?.isLender">🗂️ Manage Books</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" routerLink="/borrow/track-borrows" *ngIf="!user?.isLender">📦 Track Borrowed Books</a>
+        <a class="nav-link" routerLink="/profile">👤 Profile</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="logout()" style="cursor: pointer;">Logout</a>
+        <a class="nav-link" (click)="logout()" style="cursor: pointer;">🔓 Logout</a>
       </li>
     </ul>
   </div>

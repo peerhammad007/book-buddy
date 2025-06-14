@@ -22,9 +22,9 @@
       <h5 class="card-title">Quick Actions</h5>
       <ul class="list-group list-group-flush">
         <li class="list-group-item"><a routerLink="/books">📚 Browse Books</a></li>
-        <li class="list-group-item"><a routerLink="/profile">👤 View Profile</a></li>
         <li class="list-group-item" *ngIf="user.isLender"><a routerLink="/borrow/lender-requests">📥 Borrow Requests</a></li>
         <li class="list-group-item" *ngIf="user.isLender"><a routerLink="/borrow/track-lent-books">📖 Track Lent Books</a></li>
+        <li class="list-group-item" *ngIf="!user?.isLender"><a routerLink="/borrow/track-borrows">📦 Track Borrowed Books</a></li>
       </ul>
     </div>
   </div>
