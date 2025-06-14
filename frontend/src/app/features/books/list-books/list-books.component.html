@@ -13,7 +13,9 @@
     <div class="col-md-4 mb-4" *ngFor="let book of books">
       <app-book-card [book]="book"></app-book-card>
       <div class="d-flex justify-content-center mt-2" *ngIf="!isBookOwner(book)">
-        <button class="btn btn-success btn-sm" (click)="openBorrowDialog(book)">Borrow</button>
+        <button class="btn btn-success btn-sm" (click)="openBorrowDialog(book)" [disabled]="hasRequested(book)">
+          {{ hasRequested(book) ? 'Request Pending/Active' : 'Borrow' }}
+        </button>
       </div>
     </div>
   </div>
