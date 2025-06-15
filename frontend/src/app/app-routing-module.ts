@@ -5,7 +5,7 @@ import { RegisterComponent } from './features/auth/register/register.component';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AddBookComponent } from './features/books/add-book/add-book.component';
-import { ManageBooksComponent } from './features/books/manage-books.component/manage-books.component';
+import { ManageBooksComponent } from './features/books/manage-books/manage-books.component';
 import { AuthGuard } from './core/auth/auth.guard';
 import { ListBooksComponent } from './features/books/list-books/list-books.component';
 import { RequestBookComponent } from './features/borrow/request-book/request-book.component';

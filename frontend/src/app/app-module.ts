@@ -14,7 +14,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { TokenInterceptor } from './core/auth/token.interceptor';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { AddBookComponent } from './features/books/add-book/add-book.component';
-import { ManageBooksComponent } from './features/books/manage-books.component/manage-books.component';
+import { ManageBooksComponent } from './features/books/manage-books/manage-books.component';
 import { ListBooksComponent } from './features/books/list-books/list-books.component';
 import { BookCardComponent } from './shared/components/book-card/book-card.component';
 import { RequestBookComponent } from './features/borrow/request-book/request-book.component';
