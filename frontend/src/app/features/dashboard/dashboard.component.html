@@ -1,31 +1,106 @@
-<div *ngIf="loading" class="text-center mt-5">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
+<div class="dashboard-container">
+  <div *ngIf="loading" class="loading-spinner">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading dashboard...</p>
   </div>
-  <p class="mt-2">Loading dashboard...</p>
-</div>
 
-<div *ngIf="!loading && user" class="container mt-5">
-  <h2 class="mb-4">Welcome, {{ user.name }}!</h2>
-
-  <div class="card mb-4">
-    <div class="card-body">
-      <h5 class="card-title">Your Info</h5>
-      <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
-      <p class="card-text"><strong>Role:</strong> {{ user.isLender ? 'Lender' : 'Borrower' }}</p>
-      <p class="card-text" *ngIf="user.bio"><strong>Bio:</strong> {{ user.bio }}</p>
+  <div *ngIf="!loading && user" class="dashboard-content">
+    <div class="welcome-section">
+      <h1 class="mat-headline-4">Welcome, {{ user.name }}!</h1>
+      <mat-divider></mat-divider>
     </div>
-  </div>
 
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Quick Actions</h5>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"><a routerLink="/books">📚 Browse Books</a></li>
-        <li class="list-group-item" *ngIf="user.isLender"><a routerLink="/borrow/lender-requests">📥 Borrow Requests</a></li>
-        <li class="list-group-item" *ngIf="user.isLender"><a routerLink="/borrow/track-lent-books">📖 Track Lent Books</a></li>
-        <li class="list-group-item" *ngIf="!user?.isLender"><a routerLink="/borrow/track-borrows">📦 Track Borrowed Books</a></li>
-      </ul>
+    <div class="dashboard-grid">
+      <!-- User Info Card -->
+      <mat-card class="dashboard-card user-info-card">
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>
+              <mat-icon>account_circle</mat-icon>
+              Your Profile
+            </mat-card-title>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="info-item">
+            <mat-icon>email</mat-icon>
+            <span>{{ user.email }}</span>
+          </div>
+          <div class="info-item">
+            <mat-icon>badge</mat-icon>
+            <span>{{ user.isLender ? 'Lender' : 'Borrower' }}</span>
+          </div>
+          <div class="info-item" *ngIf="user.bio">
+            <mat-icon>description</mat-icon>
+            <span>{{ user.bio }}</span>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Quick Actions Card -->
+      <mat-card class="dashboard-card quick-actions-card">
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>
+              <mat-icon>flash_on</mat-icon>
+              Quick Actions
+            </mat-card-title>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="quick-actions-grid">
+            <a mat-raised-button color="primary" routerLink="/books">
+              <mat-icon>menu_book</mat-icon>
+              Browse Books
+            </a>
+            
+            <a mat-raised-button color="accent" *ngIf="user.isLender" routerLink="/borrow/lender-requests">
+              <mat-icon>inbox</mat-icon>
+              Borrow Requests
+            </a>
+            
+            <a mat-raised-button color="accent" *ngIf="user.isLender" routerLink="/borrow/track-lent-books">
+              <mat-icon>import_contacts</mat-icon>
+              Track Lent Books
+            </a>
+            
+            <a mat-raised-button color="accent" *ngIf="!user?.isLender" routerLink="/borrow/track-borrows">
+              <mat-icon>library_books</mat-icon>
+              Track Borrowed Books
+            </a>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Stats Card -->
+      <mat-card class="dashboard-card stats-card">
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>
+              <mat-icon>analytics</mat-icon>
+              Activity Overview
+            </mat-card-title>
+          </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="stats-grid">
+            <div class="stat-item">
+              <mat-icon color="primary">book</mat-icon>
+              <div class="stat-details">
+                <span class="stat-value">{{ user.isLender ? '5' : '2' }}</span>
+                <span class="stat-label">{{ user.isLender ? 'Books Shared' : 'Books Borrowed' }}</span>
+              </div>
+            </div>
+            <div class="stat-item">
+              <mat-icon color="accent">star</mat-icon>
+              <div class="stat-details">
+                <span class="stat-value">4.8</span>
+                <span class="stat-label">Rating</span>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
 </div>

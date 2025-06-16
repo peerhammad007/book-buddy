@@ -9,6 +9,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { AppRoutingModule } from './app-routing-module';
 import { RouterModule } from '@angular/router';
@@ -56,11 +59,13 @@ import { ProfileComponent } from './features/profile/profile.component';
     HttpClientModule,
     AppRoutingModule,
     RouterModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
+    BrowserAnimationsModule,    MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
