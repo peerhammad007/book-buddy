@@ -1,0 +1,153 @@
+.track-lent-books-container {
+  padding: 24px;
+  min-height: calc(100vh - 64px);
+  background-color: #f5f3f0;
+}
+
+.status-filter {
+  width: 200px;
+  margin-bottom: 16px;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.empty-state {
+  max-width: 600px;
+  margin: 32px auto;
+}
+
+.empty-state mat-card {
+  text-align: center;
+  padding: 32px;
+}
+
+.empty-state mat-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  color: rgba(0, 0, 0, 0.54);
+  margin-bottom: 16px;
+}
+
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.book-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.book-details {
+  margin: 16px 0;
+}
+
+.book-details p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.book-details mat-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.status-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+mat-chip-listbox {
+  --mdc-chip-container-height: 24px;
+}
+
+mat-chip {
+  font-size: 12px;
+}
+
+.status-pending {
+  background-color: #ffd740 !important;
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
+.status-approved {
+  background-color: #69f0ae !important;
+  color: rgba(0, 0, 0, 0.87) !important;
+}
+
+.status-rejected {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+.status-returned {
+  background-color: #9e9e9e !important;
+  color: white !important;
+}
+
+mat-card-actions {
+  padding: 16px;
+  margin-top: auto;
+}
+
+.message-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.message-card {
+  padding: 8px 16px;
+}
+
+.message-card mat-card-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.message-card.success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.message-card.success mat-icon {
+  color: white;
+}
+
+.message-card.error {
+  background-color: #f44336;
+  color: white;
+}
+
+.message-card.error mat-icon {
+  color: white;
+}
+
+/* Fix for mat-select transparency */
+::ng-deep .mat-mdc-select-panel {
+  background-color: white !important;
+}
+
+::ng-deep .mat-mdc-option {
+  background-color: white;
+}
+
+::ng-deep .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  background-color: rgba(171, 153, 128, 0.1) !important;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected {
+  background-color: rgba(171, 153, 128, 0.2) !important;
+}

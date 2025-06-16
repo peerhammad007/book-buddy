@@ -1,0 +1,97 @@
+.container {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  padding: 32px;
+}
+
+.empty-state {
+  max-width: 600px;
+  margin: 32px auto;
+}
+
+.empty-state mat-card {
+  text-align: center;
+  padding: 32px;
+}
+
+.empty-state mat-icon {
+  font-size: 48px;
+  height: 48px;
+  width: 48px;
+  color: rgba(0, 0, 0, 0.54);
+  margin-bottom: 16px;
+}
+
+.requests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.request-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.request-details {
+  margin: 16px 0;
+}
+
+.request-details p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.request-details mat-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+mat-card-actions {
+  padding: 16px;
+  gap: 8px;
+}
+
+.message-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+}
+
+.message-card {
+  padding: 8px 16px;
+}
+
+.message-card mat-card-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.message-card.success {
+  background-color: #4caf50;
+  color: white;
+}
+
+.message-card.success mat-icon {
+  color: white;
+}
+
+.message-card.error {
+  background-color: #f44336;
+  color: white;
+}
+
+.message-card.error mat-icon {
+  color: white;
+}

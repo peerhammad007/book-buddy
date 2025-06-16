@@ -1,51 +1,81 @@
-<div class="container mt-5">
-  <h2>Your Lent Books</h2>
+<div class="track-lent-books-container">
+  <h2 class="mat-h1">Your Lent Books</h2>
 
-  <div class="mb-3">
-    <label for="statusFilter" class="form-label">Filter by Status:</label>
-    <select id="statusFilter" class="form-select w-auto d-inline-block ms-2"
-      [(ngModel)]="statusFilter" (change)="applyFilter()">
-      <option value="all">All</option>
-      <option value="pending">Pending</option>
-      <option value="approved">On Loan</option>
-      <option value="rejected">Rejected</option>
-      <option value="returned">Returned</option>
-    </select>
+  <mat-form-field appearance="outline" class="status-filter">
+    <mat-label>Filter by Status</mat-label>
+    <mat-select [(ngModel)]="statusFilter" (selectionChange)="applyFilter()">
+      <mat-option value="all">All</mat-option>
+      <mat-option value="pending">Pending</mat-option>
+      <mat-option value="approved">On Loan</mat-option>
+      <mat-option value="rejected">Rejected</mat-option>
+      <mat-option value="returned">Returned</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <div *ngIf="loading" class="spinner-container">
+    <mat-spinner diameter="40"></mat-spinner>
   </div>
 
-  <div *ngIf="loading" class="text-center my-4">
-    <div class="spinner-border text-primary" role="status"></div>
+  <div *ngIf="!loading && filteredLentBorrows.length === 0" class="empty-state">
+    <mat-card>
+      <mat-card-content>
+        <mat-icon>info</mat-icon>
+        <p>No lent books found for this status.</p>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <div *ngIf="!loading && filteredLentBorrows.length === 0" class="alert alert-info mt-4">
-    No lent books found for this status.
-  </div>
-
-  <div *ngIf="!loading && filteredLentBorrows.length > 0" class="row mt-4">
-    <div class="col-md-6 mb-3" *ngFor="let borrow of filteredLentBorrows">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ borrow.bookId.title }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">by {{ borrow.bookId.author }}</h6>
-          <p class="card-text">
-            <strong>Borrower:</strong> {{ borrow.borrowerId.name }}<br>
-            <strong>Status:</strong> {{ borrow.status | titlecase }}<br>
-            <strong>Due Date:</strong> {{ borrow.dates.dueDate | date:'mediumDate' }}
+  <div *ngIf="!loading && filteredLentBorrows.length > 0" class="books-grid">
+    <mat-card *ngFor="let borrow of filteredLentBorrows" class="book-card">
+      <mat-card-header>
+        <mat-card-title>{{ borrow.bookId.title }}</mat-card-title>
+        <mat-card-subtitle>by {{ borrow.bookId.author }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="book-details">
+          <p>
+            <mat-icon>person</mat-icon>
+            <span><strong>Borrower:</strong> {{ borrow.borrowerId.name }}</span>
           </p>
-          <button
-            *ngIf="borrow.status === 'approved'"
-            class="btn btn-warning btn-sm"
-            (click)="markAsReturned(borrow._id)">
-            Mark as Returned
-          </button>
-          <span *ngIf="borrow.status === 'pending'" class="badge bg-warning text-dark">Pending</span>
-          <span *ngIf="borrow.status === 'rejected'" class="badge bg-danger">Rejected</span>
-          <span *ngIf="borrow.status === 'returned'" class="badge bg-secondary">Returned</span>
+          <p>
+            <mat-icon>event</mat-icon>
+            <span><strong>Due Date:</strong> {{ borrow.dates.dueDate | date:'mediumDate' }}</span>
+          </p>
+          <p class="status-container">
+            <mat-icon>info</mat-icon>
+            <span><strong>Status:</strong></span>
+            <mat-chip-listbox>
+              <mat-chip [ngClass]="'status-' + borrow.status">
+                {{ borrow.status | titlecase }}
+              </mat-chip>
+            </mat-chip-listbox>
+          </p>
         </div>
-      </div>
-    </div>
+      </mat-card-content>
+      <mat-card-actions align="end" *ngIf="borrow.status === 'approved'">
+        <button mat-flat-button color="accent" (click)="markAsReturned(borrow._id)" matTooltip="Mark book as returned">
+          <mat-icon>assignment_turned_in</mat-icon>
+          Mark as Returned
+        </button>
+      </mat-card-actions>
+    </mat-card>
   </div>
 
-  <div *ngIf="actionMessage" class="alert alert-info mt-4">{{ actionMessage }}</div>
-  <div *ngIf="error" class="alert alert-danger mt-4">{{ error }}</div>
+  <div *ngIf="actionMessage" class="message-container">
+    <mat-card class="message-card success">
+      <mat-card-content>
+        <mat-icon>check_circle</mat-icon>
+        {{ actionMessage }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="error" class="message-container">
+    <mat-card class="message-card error">
+      <mat-card-content>
+        <mat-icon>error</mat-icon>
+        {{ error }}
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

@@ -1,31 +1,63 @@
-<div class="container mt-5">
-  <h2>Borrow Requests for Your Books</h2>
+<div class="container">
+  <h2 class="mat-h1">Borrow Requests for Your Books</h2>
 
-  <div *ngIf="loading" class="text-center my-4">
-    <div class="spinner-border text-primary" role="status"></div>
+  <div *ngIf="loading" class="spinner-container">
+    <mat-spinner diameter="40"></mat-spinner>
   </div>
 
-  <div *ngIf="!loading && requests.length === 0" class="alert alert-info mt-4">
-    No pending borrow requests.
+  <div *ngIf="!loading && requests.length === 0" class="empty-state">
+    <mat-card>
+      <mat-card-content>
+        <mat-icon>info</mat-icon>
+        <p>No pending borrow requests.</p>
+      </mat-card-content>
+    </mat-card>
   </div>
 
-  <div *ngIf="!loading && requests.length > 0" class="row mt-4">
-    <div class="col-md-6 mb-3" *ngFor="let req of requests">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">{{ req.bookId.title }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">by {{ req.bookId.author }}</h6>
-          <p class="card-text">
-            <strong>Borrower:</strong> {{ req.borrowerId.name }}<br>
-            <strong>Due Date:</strong> {{ req.dates.dueDate | date:'mediumDate' }}
+  <div *ngIf="!loading && requests.length > 0" class="requests-grid">
+    <mat-card *ngFor="let req of requests" class="request-card">
+      <mat-card-header>
+        <mat-card-title>{{ req.bookId.title }}</mat-card-title>
+        <mat-card-subtitle>by {{ req.bookId.author }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="request-details">
+          <p>
+            <mat-icon>person</mat-icon>
+            <span><strong>Borrower:</strong> {{ req.borrowerId.name }}</span>
           </p>
-          <button class="btn btn-success btn-sm me-2" (click)="respond(req._id, 'approved')">Approve</button>
-          <button class="btn btn-danger btn-sm" (click)="respond(req._id, 'rejected')">Reject</button>
+          <p>
+            <mat-icon>event</mat-icon>
+            <span><strong>Due Date:</strong> {{ req.dates.dueDate | date:'mediumDate' }}</span>
+          </p>
         </div>
-      </div>
-    </div>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button mat-flat-button color="primary" (click)="respond(req._id, 'approved')" matTooltip="Approve request">
+          <mat-icon>check</mat-icon> Approve
+        </button>
+        <button mat-flat-button color="warn" (click)="respond(req._id, 'rejected')" matTooltip="Reject request">
+          <mat-icon>close</mat-icon> Reject
+        </button>
+      </mat-card-actions>
+    </mat-card>
   </div>
 
-  <div *ngIf="actionMessage" class="alert alert-info mt-4">{{ actionMessage }}</div>
-  <div *ngIf="error" class="alert alert-danger mt-4">{{ error }}</div>
+  <div *ngIf="actionMessage" class="message-container">
+    <mat-card class="message-card success">
+      <mat-card-content>
+        <mat-icon>check_circle</mat-icon>
+        {{ actionMessage }}
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="error" class="message-container">
+    <mat-card class="message-card error">
+      <mat-card-content>
+        <mat-icon>error</mat-icon>
+        {{ error }}
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

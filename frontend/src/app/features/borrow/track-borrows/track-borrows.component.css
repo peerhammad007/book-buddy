@@ -130,6 +130,23 @@
   color: #cc1c3f;
 }
 
+/* Fix for mat-select transparency */
+::ng-deep .mat-mdc-select-panel {
+  background-color: white !important;
+}
+
+::ng-deep .mat-mdc-option {
+  background-color: white;
+}
+
+::ng-deep .mat-mdc-option:hover:not(.mdc-list-item--disabled) {
+  background-color: rgba(171, 153, 128, 0.1) !important;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected {
+  background-color: rgba(171, 153, 128, 0.2) !important;
+}
+
 @media (max-width: 768px) {
   .header-section {
     flex-direction: column;
