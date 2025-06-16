@@ -1,23 +1,43 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary px-4">
-  <a class="navbar-brand" routerLink="/dashboard">📚 BookBuddy</a>
+<mat-toolbar class="navbar">
+  <mat-toolbar-row>
+    <a class="brand" routerLink="/dashboard">
+      <mat-icon>menu_book</mat-icon>
+      <span class="brand-text">BookBuddy</span>
+    </a>
+    
+    <span class="toolbar-spacer"></span>
 
-  <div class="collapse navbar-collapse" *ngIf="isLoggedIn()">
-    <ul class="navbar-nav ms-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/dashboard">🧭 Dashboard</a>
-      </li>
-      <li class="nav-item" *ngIf="user?.isLender">
-        <a class="nav-link" routerLink="/books/add">➕ Add a Book</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/books/manage" *ngIf="user?.isLender">🗂️ Manage Books</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/profile">👤 Profile</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" (click)="logout()" style="cursor: pointer;">🔓 Logout</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+    <div class="nav-items" *ngIf="isLoggedIn()">
+      <a mat-button routerLink="/dashboard" class="nav-link">
+        <mat-icon>dashboard</mat-icon>
+        <span class="nav-text">Dashboard</span>
+      </a>
+
+      <a mat-button routerLink="/books/add" class="nav-link" *ngIf="user?.isLender">
+        <mat-icon>add_circle</mat-icon>
+        <span class="nav-text">Add Book</span>
+      </a>
+
+      <a mat-button routerLink="/books/manage" class="nav-link" *ngIf="user?.isLender">
+        <mat-icon>library_books</mat-icon>
+        <span class="nav-text">Manage Books</span>
+      </a>
+
+      <button mat-button [matMenuTriggerFor]="userMenu" class="user-menu-button">
+        <mat-icon>account_circle</mat-icon>
+        <span class="nav-text">Account</span>
+      </button>
+
+      <mat-menu #userMenu="matMenu" class="user-menu">
+        <a mat-menu-item routerLink="/profile">
+          <mat-icon>person</mat-icon>
+          <span>Profile</span>
+        </a>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </div>
+  </mat-toolbar-row>
+</mat-toolbar>

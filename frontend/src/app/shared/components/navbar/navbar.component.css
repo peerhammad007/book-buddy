@@ -1,13 +1,53 @@
-.navbar-brand {
-  font-weight: bold;
-  font-size: 1.5rem;
+.navbar {
+  background: linear-gradient(to right, #ab9980, #c4b49b);
+  padding: 0 24px;
 }
 
-.nav-link {
-  color: #fff !important;
-  transition: color 0.2s ease-in-out;
+.brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: #f5f3f0;
+  gap: 8px;
 }
 
-.nav-link:hover {
-  color: #d1ecf1 !important;
+.brand-text {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.toolbar-spacer {
+  flex: 1 1 auto;
+}
+
+.nav-items {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-link, .user-menu-button {
+  color: #f5f3f0 !important;
+}
+
+@media (max-width: 768px) {
+  .nav-text {
+    display: none;
+  }
+  
+  .brand-text {
+    display: none;
+  }
+  
+  .nav-items {
+    gap: 4px;
+  }
+  
+  .navbar {
+    padding: 0 12px;
+  }
+  
+  .nav-link mat-icon {
+    margin-right: 0;
+  }
 }
