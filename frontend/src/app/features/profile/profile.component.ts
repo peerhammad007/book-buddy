@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   profileForm!: FormGroup;
   user: User | null = null;
   selectedImage: File | null = null;
+  selectedFileName: string | null = null;
   successMessage = '';
   errorMessage = '';
 
@@ -42,6 +43,7 @@ export class ProfileComponent implements OnInit {
     const file = event.target.files[0];
     if (file) {
       this.selectedImage = file;
+      this.selectedFileName = file.name;
     }
   }
 

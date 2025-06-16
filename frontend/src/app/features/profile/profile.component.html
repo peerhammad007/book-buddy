@@ -1,25 +1,60 @@
-<div class="container mt-5" style="max-width: 500px;">
-    <h2 class="mb-4 text-center">Edit Profile</h2>
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data"
-        class="p-4 shadow-sm rounded bg-white">
-        <div class="mb-3 text-center">
-            <img *ngIf="user?.profileImg" [src]="getProfileImgUrl()" alt="Profile Image" class="rounded-circle mb-2"
-                style="width: 100px; height: 100px; object-fit: cover;">
+<div class="profile-container">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <mat-card-title>Edit Profile</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <div class="profile-image-section">
+          <div class="profile-image-container">
+            <img *ngIf="user?.profileImg" [src]="getProfileImgUrl()" alt="Profile Image" class="profile-image">
+            <div *ngIf="!user?.profileImg" class="profile-image-placeholder">
+              <mat-icon>account_circle</mat-icon>
+            </div>
+          </div>
+          
+          <div class="upload-button-container">
+            <button type="button" mat-stroked-button (click)="fileInput.click()">
+              <mat-icon>photo_camera</mat-icon>
+              Change Photo
+            </button>
+            <input #fileInput type="file" (change)="onFileChange($event)" accept="image/*" style="display: none">
+            <span class="file-name" *ngIf="selectedFileName">{{ selectedFileName }}</span>
+          </div>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Name</label>
-            <input formControlName="name" type="text" class="form-control" />
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Name</mat-label>
+          <input matInput formControlName="name" placeholder="Enter your name">
+          <mat-error *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched">
+            Name is required
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Bio</mat-label>
+          <textarea matInput formControlName="bio" placeholder="Tell us about yourself" rows="4"></textarea>
+          <mat-hint align="end">Share a brief description about yourself</mat-hint>
+        </mat-form-field>
+
+        <div class="form-actions">
+          <button mat-flat-button color="primary" type="submit" [disabled]="profileForm.invalid" class="submit-button">
+            <mat-icon>save</mat-icon>
+            <span>Update Profile</span>
+          </button>
         </div>
-        <div class="mb-3">
-            <label class="form-label">Bio</label>
-            <textarea formControlName="bio" class="form-control" rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-            <label class="form-label">Profile Image</label>
-            <input type="file" (change)="onFileChange($event)" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Update Profile</button>
-        <div class="text-success mt-3 text-center" *ngIf="successMessage">{{ successMessage }}</div>
-        <div class="text-danger mt-2 text-center" *ngIf="errorMessage">{{ errorMessage }}</div>
-    </form>
+      </form>
+    </mat-card-content>
+
+    <div *ngIf="successMessage" class="message success-message">
+      <mat-icon>check_circle</mat-icon>
+      {{ successMessage }}
+    </div>
+
+    <div *ngIf="errorMessage" class="message error-message">
+      <mat-icon>error</mat-icon>
+      {{ errorMessage }}
+    </div>
+  </mat-card>
 </div>
