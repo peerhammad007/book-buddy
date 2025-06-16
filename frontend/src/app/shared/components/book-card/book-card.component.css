@@ -1,16 +1,18 @@
 .book-card {
-  width: 100%;
-  max-width: 300px;
+  width: 300px; /* Fixed width instead of max-width */
   margin: 16px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  background-color: #f5f3f0;
+  background-color: white;
   border-radius: 8px;
   cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(171, 153, 128, 0.1);
 }
 
 .book-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border-color: rgba(171, 153, 128, 0.2);
 }
 
 .book-cover {
@@ -82,8 +84,9 @@ mat-card-actions {
 
 @media (max-width: 599px) {
   .book-card {
-    max-width: 100%;
-    margin: 8px 0;
+    width: 100%;  /* Full width on mobile */
+    max-width: 300px; /* But still cap at 300px */
+    margin: 8px auto; /* Center the card */
   }
   
   .book-cover {

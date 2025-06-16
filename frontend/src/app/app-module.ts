@@ -13,6 +13,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { AppRoutingModule } from './app-routing-module';
 import { RouterModule } from '@angular/router';
@@ -63,11 +64,11 @@ import { ProfileComponent } from './features/profile/profile.component';
     BrowserAnimationsModule,    MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule,
-    MatCardModule,
+    MatMenuModule,    MatCardModule,
     MatDividerModule,
     MatProgressSpinnerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatFormFieldModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
