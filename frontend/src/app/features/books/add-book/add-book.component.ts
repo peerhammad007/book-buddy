@@ -13,6 +13,7 @@ import { Book } from '../../../core/models/book.model';
 export class AddBookComponent implements OnInit {
   bookForm: FormGroup;
   selectedImage: File | null = null;
+  selectedFileName: string | null = null;
   errorMessage: string = '';
   successMessage: string = '';
   isEditMode: boolean = false;
@@ -57,6 +58,7 @@ export class AddBookComponent implements OnInit {
     const file = event.target.files[0];
     if (file) {
       this.selectedImage = file;
+      this.selectedFileName = file.name;
     }
   }
 
