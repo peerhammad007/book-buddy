@@ -14,6 +14,12 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 
 import { AppRoutingModule } from './app-routing-module';
 import { RouterModule } from '@angular/router';
@@ -61,14 +67,22 @@ import { ProfileComponent } from './features/profile/profile.component';
     HttpClientModule,
     AppRoutingModule,
     RouterModule,
-    BrowserAnimationsModule,    MatToolbarModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule,    MatCardModule,
+    MatMenuModule,
+    MatCardModule,
     MatDividerModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
+    MatChipsModule
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),

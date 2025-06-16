@@ -1,12 +1,53 @@
-<div class="container mt-5" *ngIf="book">
-  <h3>Request to Borrow: {{ book.title }}</h3>
-  <p><strong>Author:</strong> {{ book.author }}</p>
-  <p><strong>Owner:</strong> {{ book.ownerId.name }}</p>
-  <div class="mb-3">
-    <label for="dueDate" class="form-label">Due Date</label>
-    <input id="dueDate" type="date" class="form-control" [(ngModel)]="dueDate" />
-  </div>
-  <button class="btn btn-success" (click)="requestBorrow()">Send Request</button>
-  <div class="text-success mt-2" *ngIf="message">{{ message }}</div>
-  <div class="text-danger mt-2" *ngIf="error">{{ error }}</div>
+<div class="request-book-container" *ngIf="book">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Request to Borrow</mat-card-title>
+      <mat-card-subtitle>{{ book.title }} by {{ book.author }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div class="book-details">
+        <p><strong>Owner:</strong> {{ book.ownerId.name }}</p>
+      </div>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Return Date</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="dueDate" 
+               [min]="minDate" [max]="maxDate" 
+               placeholder="Choose a return date"
+               name="dueDate"
+               required>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-button (click)="goBack()">Cancel</button>
+      <button mat-raised-button color="primary" (click)="requestBorrow()" [disabled]="!dueDate">
+        Send Request
+      </button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card *ngIf="message || error" class="message-card" [class.error]="error">
+    <mat-card-content>
+      <mat-icon>{{ error ? 'error_outline' : 'check_circle' }}</mat-icon>
+      <span>{{ message || error }}</span>
+    </mat-card-content>
+  </mat-card>
 </div>
+
+<!-- Loading State -->
+<div class="loading-state" *ngIf="!book && !error">
+  <mat-spinner diameter="40"></mat-spinner>
+  <span>Loading book details...</span>
+</div>
+
+<!-- Error State -->
+<mat-card class="error-card" *ngIf="!book && error">
+  <mat-card-content>
+    <mat-icon>error_outline</mat-icon>
+    <span>{{ error }}</span>
+  </mat-card-content>
+</mat-card>

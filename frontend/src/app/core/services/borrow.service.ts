@@ -8,7 +8,6 @@ import { BorrowRequest } from '../models/borrow.model';
   providedIn: 'root'
 })
 export class BorrowService {
-
   private apiUrl = `${environment.apiUrl}/borrow`;
 
   constructor(private http: HttpClient) {}
@@ -31,5 +30,15 @@ export class BorrowService {
   // Get borrow history for the current user
   getBorrowHistory(): Observable<BorrowRequest[]> {
     return this.http.get<BorrowRequest[]>(`${this.apiUrl}/history`);
+  }
+
+  // Get all borrow requests for the current user (both as borrower and lender)
+  getUserBorrowRequests(): Observable<BorrowRequest[]> {
+    return this.http.get<BorrowRequest[]>(`${this.apiUrl}/history?active=true`);
+  }
+
+  // Get pending requests for a specific book
+  getBookRequests(bookId: string): Observable<BorrowRequest[]> {
+    return this.http.get<BorrowRequest[]>(`${this.apiUrl}/book/${bookId}`);
   }
 }

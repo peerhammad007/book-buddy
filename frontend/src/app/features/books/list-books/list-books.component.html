@@ -1,27 +1,41 @@
-<div class="container mt-5 book-list-container">
-  <h2 class="mb-4 text-center">Available Books</h2>
-
-  <!-- Bootstrap Spinner -->
-  <div *ngIf="isLoading" class="d-flex justify-content-center my-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
+<div class="list-books-container">
+  <!-- Header with Search -->
+  <div class="header-section">
+    <h1 class="mat-headline-4">Available Books</h1>
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search books</mat-label>
+      <input matInput type="text" [(ngModel)]="searchQuery" (ngModelChange)="onSearchChange($event)" placeholder="Search by title or author">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
   </div>
 
-  <!-- Book Grid -->
-  <div class="row" *ngIf="!isLoading && books.length">
-    <div class="col-md-4 mb-4" *ngFor="let book of books">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-state">
+    <mat-spinner diameter="40"></mat-spinner>
+    <span>Loading books...</span>
+  </div>
+
+  <!-- Books Grid -->  <div class="books-grid" *ngIf="!isLoading && filteredBooks.length">
+    <div class="book-item" *ngFor="let book of filteredBooks">
       <app-book-card [book]="book"></app-book-card>
-      <div class="d-flex justify-content-center mt-2" *ngIf="!isBookOwner(book)">
-        <button class="btn btn-success btn-sm" (click)="openBorrowDialog(book)" [disabled]="hasRequested(book)">
-          {{ hasRequested(book) ? 'Request Pending/Active' : 'Borrow' }}
+      <div class="borrow-action" *ngIf="!isBookOwner(book)">
+        <button mat-raised-button color="primary" 
+                (click)="openBorrowDialog(book)" 
+                [disabled]="hasRequested(book)"
+                [matTooltip]="hasRequested(book) ? 'A request is already pending or active' : 'Request to borrow this book'">
+          <mat-icon>book</mat-icon>
+          {{ hasRequested(book) ? 'Request Pending' : 'Borrow' }}
         </button>
       </div>
     </div>
   </div>
 
-  <!-- No Books Message -->
-  <p *ngIf="!isLoading && books.length === 0" class="text-center text-muted">
-    No books available at the moment.
-  </p>
+  <!-- Empty State -->
+  <mat-card *ngIf="!isLoading && books.length === 0" class="empty-state">
+    <mat-card-content>
+      <mat-icon class="empty-icon">menu_book</mat-icon>
+      <h2>No Books Available</h2>
+      <p>There are no books available for borrowing at the moment. Please check back later!</p>
+    </mat-card-content>
+  </mat-card>
 </div>

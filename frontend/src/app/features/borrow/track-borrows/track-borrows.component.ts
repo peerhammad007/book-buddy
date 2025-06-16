@@ -18,10 +18,16 @@ export class TrackBorrowsComponent implements OnInit {
   constructor(private borrowService: BorrowService) {}
 
   ngOnInit(): void {
+    this.loadBorrowHistory();
+  }
+
+  private loadBorrowHistory(): void {
+    this.loading = true;
+    this.error = '';
+    
     this.borrowService.getBorrowHistory().subscribe({
       next: (data) => {
-        // Only show borrows where the user is the borrower
-        this.borrows = this.borrows = data.filter(b => b.borrowerId);
+        this.borrows = data.filter(b => b.borrowerId);
         this.applyFilter();
         this.loading = false;
       },
@@ -32,11 +38,41 @@ export class TrackBorrowsComponent implements OnInit {
     });
   }
 
-  applyFilter() {
+  applyFilter(): void {
     if (this.statusFilter === 'all') {
       this.filteredBorrows = this.borrows;
     } else {
       this.filteredBorrows = this.borrows.filter(b => b.status === this.statusFilter);
+    }
+  }
+
+  getStatusIcon(status: string): string {
+    switch (status) {
+      case 'pending':
+        return 'hourglass_empty';
+      case 'approved':
+        return 'book';
+      case 'rejected':
+        return 'cancel';
+      case 'returned':
+        return 'assignment_turned_in';
+      default:
+        return 'help';
+    }
+  }
+
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'pending':
+        return 'Pending Approval';
+      case 'approved':
+        return 'On Loan';
+      case 'rejected':
+        return 'Rejected';
+      case 'returned':
+        return 'Returned';
+      default:
+        return status;
     }
   }
 }

@@ -88,14 +88,27 @@ exports.markAsReturned = async (req, res) => {
 exports.getBorrowHistory = async (req, res) => {
   try {
     const requests = await BorrowRequest.find({
-      $or: [{ borrowerId: req.user._id }, { lenderId: req.user._id }],
+      $or: [
+        { borrowerId: req.user._id },
+        { lenderId: req.user._id }
+      ]
     })
-      .populate('bookId', 'title author')
-      .populate('borrowerId', 'name')
-      .populate('lenderId', 'name');
+    .populate('bookId', 'title author')
+    .populate('borrowerId', 'name')
+    .populate('lenderId', 'name')
+    .sort({ 'dates.requestDate': -1 });
+
+    // Add a query parameter to filter only active/pending requests if needed
+    const filterActive = req.query.active === 'true';
+    if (filterActive) {
+      const activeRequests = requests.filter(req => 
+        req.status === 'pending' || req.status === 'approved'
+      );
+      return res.json(activeRequests);
+    }
 
     res.json(requests);
   } catch (err) {
-    res.status(500).json({ message: 'Failed to fetch history', error: err.message });
+    res.status(500).json({ message: 'Failed to fetch borrow history', error: err.message });
   }
 };
