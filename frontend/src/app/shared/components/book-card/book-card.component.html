@@ -1,24 +1,52 @@
-<div class="card book-card mb-4 shadow-sm" (click)="viewDetails()" style="cursor: pointer;">
-  <img [src]="getImageUrl()" class="card-img-top" alt="{{ book.title }}" />
+<mat-card class="book-card" (click)="viewDetails()">
+  <mat-card-header>
+    <mat-card-title [matTooltip]="book.title">
+      {{ book.title.length > 30 ? (book.title | slice:0:30) + '…' : book.title }}
+    </mat-card-title>
+    <mat-card-subtitle>{{ book.author }}</mat-card-subtitle>
+  </mat-card-header>
 
-  <div class="card-body">
-    <h5 class="card-title d-flex justify-content-between align-items-center">
-      <span [title]="book.title">
-        {{ book.title.length > 30 ? (book.title | slice:0:30) + '…' : book.title }}
-      </span>
-    </h5>
-    <h6 class="card-subtitle mb-2 text-muted">{{ book.author }}</h6>
-    <p class="card-text"><strong>Genre:</strong> {{ book.genre }}</p>
-    <p class="card-text"><strong>Condition:</strong> {{ book.condition }}</p>
-    <div class="mt-2">
-      <span class="badge"
-        [ngClass]="{
-          'bg-success': book.availability === 'available',
-          'bg-secondary': book.availability === 'on-loan'
-        }"
-        style="font-size: 0.9em;">
+  <img mat-card-image [src]="getImageUrl()" [alt]="book.title" class="book-cover">
+
+  <mat-card-content>
+    <div class="book-details">
+      <div class="book-info">
+        <mat-icon>category</mat-icon>
+        <span>{{ book.genre }}</span>
+      </div>
+      
+      <div class="book-info">
+        <mat-icon>inventory_2</mat-icon>
+        <span>{{ book.condition }}</span>
+      </div>
+
+      <div class="status-chip" [ngClass]="book.availability">
+        <mat-icon>
+          {{ book.availability === 'available' ? 'check_circle' : 'schedule' }}
+        </mat-icon>
         {{ book.availability === 'available' ? 'Available' : 'On Loan' }}
-      </span>
+      </div>
     </div>
-  </div>
-</div>
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Book actions" (click)="$event.stopPropagation()">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </mat-card-actions>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item (click)="viewDetails()">
+      <mat-icon>visibility</mat-icon>
+      <span>View Details</span>
+    </button>
+    <button mat-menu-item *ngIf="canEdit" (click)="editBook()">
+      <mat-icon>edit</mat-icon>
+      <span>Edit</span>
+    </button>
+    <button mat-menu-item *ngIf="canEdit" (click)="deleteBook()">
+      <mat-icon>delete</mat-icon>
+      <span>Delete</span>
+    </button>
+  </mat-menu>
+</mat-card>

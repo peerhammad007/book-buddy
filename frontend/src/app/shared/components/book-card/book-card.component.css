@@ -1,27 +1,92 @@
 .book-card {
-  transition: transform 0.2s ease-in-out;
-  max-width: 100%;
-  margin: 0 auto;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.card-title {
-  min-height: 2.5em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  margin: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #f5f3f0;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
 .book-card:hover {
-  transform: scale(1.02);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.card-img-top {
-  height: 180px;
+.book-cover {
+  height: 200px;
   object-fit: cover;
+  border-radius: 4px;
+  margin: 8px;
+}
+
+.book-details {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 16px;
+}
+
+.book-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 0.9rem;
+}
+
+.book-info mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  color: #cc1c3f;
+}
+
+.status-chip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  width: fit-content;
+}
+
+.status-chip.available {
+  background-color: #ab9980;
+  color: white;
+}
+
+.status-chip.on-loan {
+  background-color: #cc1c3f;
+  color: white;
+}
+
+mat-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: #2c1810;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+mat-card-subtitle {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+mat-card-actions {
+  padding: 8px;
+}
+
+@media (max-width: 599px) {
+  .book-card {
+    max-width: 100%;
+    margin: 8px 0;
+  }
+  
+  .book-cover {
+    height: 160px;
+  }
 }
