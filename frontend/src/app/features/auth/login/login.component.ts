@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   errorMessage: string = '';
+  hidePassword = true;  // Add this line for password visibility toggle
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private userService: UserService) {
     this.loginForm = this.fb.group({
