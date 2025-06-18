@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
   registerForm: FormGroup;
   errorMessage: string = '';
+  selectedFile: File | null = null;
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.registerForm = this.fb.group({
@@ -19,14 +20,31 @@ export class RegisterComponent {
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       isLender: [false],
-      bio: [''],
-      profileImg: ['']
+      bio: ['']
     });
+  }
+
+  onFileChange(event: any): void {
+    if (event.target.files && event.target.files.length > 0) {
+      this.selectedFile = event.target.files[0];
+    }
   }
 
   onSubmit(): void {
     if (this.registerForm.valid) {
-      this.authService.register(this.registerForm.value).subscribe({
+      const formData = new FormData();
+      
+      // Append form fields to FormData
+      Object.keys(this.registerForm.value).forEach(key => {
+        formData.append(key, this.registerForm.value[key]);
+      });
+
+      // Append the file if selected
+      if (this.selectedFile) {
+        formData.append('profileImg', this.selectedFile);
+      }
+
+      this.authService.register(formData).subscribe({
         next: (res) => {
           this.router.navigate(['/login']);
           console.log('Registration successful:', res);

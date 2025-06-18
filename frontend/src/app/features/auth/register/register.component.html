@@ -30,12 +30,11 @@
   </div>
 
   <div class="mb-3">
-    <label for="profileImg" class="form-label">Profile Image URL</label>
-    <input id="profileImg" formControlName="profileImg" type="text" class="form-control"
-      placeholder="Paste image URL" />
+    <label for="profileImg" class="form-label">Profile Picture</label>
+    <input id="profileImg" type="file" (change)="onFileChange($event)" class="form-control" accept="image/*" />
   </div>
 
-  <button type="submit" class="btn btn-primary w-100" [disabled]="registerForm.invalid">Register</button>
+  <button type="submit" class="btn btn-primary w-100" [disabled]="!registerForm.valid">Register</button>
 
   <div class="text-center mt-3">
     <p>Already have an account? <a routerLink="/login">Login</a></p>

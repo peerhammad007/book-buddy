@@ -3,17 +3,32 @@ const generateToken = require('../utils/generateToken');
 
 // @route POST /api/v1/auth/register
 exports.register = async (req, res) => {
-  const { name, email, password, isLender } = req.body;
+  const { name, email, password, isLender, bio } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
     if (userExists) return res.status(400).json({ message: 'User already exists' });
 
-    const user = await User.create({ name, email, password, isLender });
+    // Create user data object
+    const userData = {
+      name,
+      email,
+      password,
+      isLender: isLender === 'true',
+      bio,
+    };
+
+    // Add profile image if uploaded
+    if (req.file) {
+      userData.profileImg = req.file.filename;
+    }
+
+    const user = await User.create(userData);
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
+      profileImg: user.profileImg,
       token: generateToken(user._id),
     });
   } catch (err) {
