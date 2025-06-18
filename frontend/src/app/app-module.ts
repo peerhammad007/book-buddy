@@ -21,7 +21,6 @@ import { RequestBookComponent } from './features/borrow/request-book/request-boo
 import { TrackBorrowsComponent } from './features/borrow/track-borrows/track-borrows.component';
 import { LenderRequestsComponent } from './features/borrow/lender-requests/lender-requests.component';
 import { TrackLentBooksComponent } from './features/borrow/track-lent-books/track-lent-books.component';
-import { EditBookComponent } from './features/books/edit-book/edit-book.component';
 import { ProfileComponent } from './features/profile/profile.component';
 @NgModule({
   declarations: [
@@ -39,7 +38,6 @@ import { ProfileComponent } from './features/profile/profile.component';
     TrackBorrowsComponent,
     LenderRequestsComponent,
     TrackLentBooksComponent,
-    EditBookComponent,
     ProfileComponent
   ],
   imports: [

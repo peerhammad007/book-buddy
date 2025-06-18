@@ -1,31 +1,111 @@
-<div *ngIf="loading" class="text-center mt-5">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <p class="mt-2">Loading dashboard...</p>
-</div>
-
-<div *ngIf="!loading && user" class="container mt-5">
-  <h2 class="mb-4">Welcome, {{ user.name }}!</h2>
-
-  <div class="card mb-4">
-    <div class="card-body">
-      <h5 class="card-title">Your Info</h5>
-      <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
-      <p class="card-text"><strong>Role:</strong> {{ user.isLender ? 'Lender' : 'Borrower' }}</p>
-      <p class="card-text" *ngIf="user.bio"><strong>Bio:</strong> {{ user.bio }}</p>
+<div *ngIf="loading" class="dashboard-skeleton mt-5 p-4">
+  <div class="skeleton-card mb-4"></div>
+  <div class="row">
+    <div class="col-md-5">
+      <div class="skeleton-card"></div>
+    </div>
+    <div class="col-md-7">
+      <div class="skeleton-card"></div>
     </div>
   </div>
+</div>
 
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Quick Actions</h5>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item"><a routerLink="/books">📚 Browse Books</a></li>
-        <li class="list-group-item" *ngIf="user.isLender"><a routerLink="/borrow/lender-requests">📥 Borrow Requests</a></li>
-        <li class="list-group-item" *ngIf="user.isLender"><a routerLink="/borrow/track-lent-books">📖 Track Lent Books</a></li>
-        <li class="list-group-item" *ngIf="!user?.isLender"><a routerLink="/borrow/track-borrows">📦 Track Borrowed Books</a></li>
-      </ul>
+<div *ngIf="!loading && user" class="dashboard-container p-4 bg-light">
+  <!-- User welcome section -->
+  <div class="welcome-banner p-4 mb-4 bg-primary text-white rounded shadow">
+    <h2>Welcome, {{ user.name }}!</h2>
+    <p class="mb-0">{{ user.isLender ? 'Share your books with the community' : 'Find your next great read' }}</p>
+  </div>
+  
+  <!-- User info and quick actions in a grid -->
+  <div class="row g-4">
+    <div class="col-md-5">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center mb-3">
+            <div class="user-avatar me-3">
+              <span class="user-initial">{{ user.name.charAt(0) }}</span>
+            </div>
+            <h5 class="card-title mb-0">Your Profile</h5>
+          </div>
+          <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+          <p class="card-text"><strong>Role:</strong> <span class="status-badge" [ngClass]="user.isLender ? 'status-badge-approved' : 'status-badge-pending'">{{ user.isLender ? 'Lender' : 'Borrower' }}</span></p>
+          <p class="card-text" *ngIf="user.bio"><strong>Bio:</strong> {{ user.bio }}</p>
+          <div class="mt-4">
+            <a routerLink="/profile" class="btn btn-outline-primary">Edit Profile</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <h5 class="card-title mb-4">Quick Actions</h5>
+          <div class="row row-cols-1 row-cols-md-2 g-3">
+            <div class="col">
+              <div class="action-card p-3 bg-light rounded hover-effect">
+                <i class="fas fa-book fa-lg text-primary mb-2"></i>
+                <h6>Browse Books</h6>
+                <p class="small text-muted mb-2">Explore our collection</p>
+                <a routerLink="/books" class="stretched-link"></a>
+              </div>
+            </div>
+            
+            <div class="col" *ngIf="user.isLender">
+              <div class="action-card p-3 bg-light rounded hover-effect">
+                <i class="fas fa-inbox fa-lg text-success mb-2"></i>
+                <h6>Borrow Requests</h6>
+                <p class="small text-muted mb-2">Manage incoming requests</p>
+                <a routerLink="/borrow/lender-requests" class="stretched-link"></a>
+              </div>
+            </div>
+            
+            <div class="col" *ngIf="user.isLender">
+              <div class="action-card p-3 bg-light rounded hover-effect">
+                <i class="fas fa-share fa-lg text-info mb-2"></i>
+                <h6>Track Lent Books</h6>
+                <p class="small text-muted mb-2">See books you've shared</p>
+                <a routerLink="/borrow/track-lent-books" class="stretched-link"></a>
+              </div>
+            </div>
+            
+            <div class="col" *ngIf="user.isLender">
+              <div class="action-card p-3 bg-light rounded hover-effect">
+                <i class="fas fa-plus-circle fa-lg text-primary mb-2"></i>
+                <h6>Add a Book</h6>
+                <p class="small text-muted mb-2">Share with the community</p>
+                <a routerLink="/books/add" class="stretched-link"></a>
+              </div>
+            </div>
+            
+            <div class="col" *ngIf="!user.isLender">
+              <div class="action-card p-3 bg-light rounded hover-effect">
+                <i class="fas fa-book-open fa-lg text-warning mb-2"></i>
+                <h6>Track Borrowed Books</h6>
+                <p class="small text-muted mb-2">Manage your loans</p>
+                <a routerLink="/borrow/track-borrows" class="stretched-link"></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Recent Activity Section -->
+  <div class="card shadow-sm mt-4">
+    <div class="card-body">        <h5 class="card-title">Recent Activity</h5>
+      <div class="text-center py-4">
+        <svg width="100" height="100" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-3">
+          <rect x="40" y="30" width="120" height="80" fill="#f0f0f0" rx="5"/>
+          <rect x="60" y="40" width="80" height="10" fill="#6c757d" rx="2"/>
+          <rect x="60" y="55" width="80" height="5" fill="#6c757d" rx="2"/>
+          <rect x="60" y="65" width="60" height="5" fill="#6c757d" rx="2"/>
+          <circle cx="100" cy="90" r="10" fill="#0d6efd"/>
+          <path d="M95 90 L100 95 L110 85" stroke="white" stroke-width="2"/>
+        </svg>
+        <p class="text-muted">No recent activity to display</p>
+      </div>
     </div>
   </div>
 </div>

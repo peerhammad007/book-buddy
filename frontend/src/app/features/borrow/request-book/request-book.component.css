@@ -1,0 +1,43 @@
+.card {
+  border: none;
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+
+.card-title {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.img-fluid {
+  transition: transform 0.3s ease;
+  border: 1px solid #eee;
+}
+
+.img-fluid:hover {
+  transform: scale(1.02);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+.alert {
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.alert-success {
+  border-left: 4px solid #28a745;
+}
+
+.alert-danger {
+  border-left: 4px solid #dc3545;
+}
+
+@media (max-width: 768px) {
+  .col-md-4 {
+    margin-bottom: 2rem;
+  }
+}

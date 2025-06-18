@@ -1,53 +1,98 @@
 <div class="container mt-5">
-  <h2>Your Borrowed Books</h2>
-
-  <div class="mb-3">
-    <label for="statusFilter" class="form-label">Filter by Status:</label>
-    <select id="statusFilter" class="form-select w-auto d-inline-block ms-2"
-      [(ngModel)]="statusFilter" (change)="applyFilter()">
-      <option value="all">All</option>
-      <option value="pending">Pending</option>
-      <option value="approved">On Loan</option>
-      <option value="rejected">Rejected</option>
-      <option value="returned">Returned</option>
-    </select>
+  <div class="d-sm-flex justify-content-between align-items-center mb-4">
+    <h2>Your Borrowed Books</h2>
+    
+    <div class="filter-controls d-flex gap-2 align-items-center">
+      <label for="statusFilter" class="form-label mb-0 me-2">Filter:</label>
+      <select id="statusFilter" class="form-select" 
+        [(ngModel)]="statusFilter" (change)="applyFilter()">
+        <option value="all">All Requests</option>
+        <option value="pending">Pending</option>
+        <option value="approved">On Loan</option>
+        <option value="rejected">Rejected</option>
+        <option value="returned">Returned</option>
+      </select>
+    </div>
   </div>
 
-  <div *ngIf="loading" class="text-center my-4">
-    <div class="spinner-border text-primary" role="status"></div>
+  <!-- Loading Skeletons -->
+  <div *ngIf="loading" class="row">
+    <div class="col-md-6 mb-3" *ngFor="let i of [1, 2, 3, 4]">
+      <div class="card skeleton-card" style="height: 180px">
+        <div class="card-body">
+          <div class="skeleton-title"></div>
+          <div class="skeleton-text"></div>
+          <div class="skeleton-text"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div *ngIf="!loading && filteredBorrows.length === 0" class="alert alert-info mt-4">
-    No borrowed books found for this status.
+  <!-- Empty State -->  <div *ngIf="!loading && filteredBorrows.length === 0" class="empty-state text-center py-5">
+    <svg width="120" height="120" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-3">
+      <circle cx="100" cy="60" r="20" fill="#f0f0f0"/>
+      <path d="M100 45 L100 75 M85 60 L115 60" stroke="#6c757d" stroke-width="3"/>
+      <rect x="65" y="90" width="70" height="10" fill="#f0f0f0" rx="2"/>
+      <rect x="75" y="105" width="50" height="5" fill="#f0f0f0" rx="2"/>
+      <rect x="85" y="115" width="30" height="5" fill="#f0f0f0" rx="2"/>
+    </svg>
+    <h3>No borrowed books found</h3>
+    <p class="text-muted">No books with the selected status "{{ statusFilter === 'all' ? 'any' : statusFilter }}" were found.</p>
+    <button class="btn btn-primary mt-2" routerLink="/books">Browse Available Books</button>
   </div>
 
+  <!-- Borrow Cards -->
   <div *ngIf="!loading && filteredBorrows.length > 0" class="row mt-4">
     <div class="col-md-6 mb-3" *ngFor="let borrow of filteredBorrows">
-      <div class="card">
+      <div class="card borrow-card hover-effect">
         <div class="card-body">
-          <h5 class="card-title">{{ borrow.bookId.title }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">by {{ borrow.bookId.author }}</h6>
-          <p class="card-text">
-            <strong>Status:</strong> {{ borrow.status | titlecase }}<br>
-            <strong>Due Date:</strong> {{ borrow.dates.dueDate | date:'mediumDate' }}<br>
-            <strong>Lender:</strong> {{ borrow.lenderId.name }}
-          </p>
-          <div *ngIf="borrow.status === 'approved'">
-            <span class="badge bg-success">On Loan</span>
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <h5 class="card-title">{{ borrow.bookId.title }}</h5>
+              <h6 class="card-subtitle mb-3 text-muted">by {{ borrow.bookId.author }}</h6>
+            </div>
+            <span class="status-badge" 
+                  [ngClass]="{
+                    'status-badge-approved': borrow.status === 'approved',
+                    'status-badge-pending': borrow.status === 'pending',
+                    'status-badge-rejected': borrow.status === 'rejected',
+                    'status-badge-returned': borrow.status === 'returned'
+                  }">
+              {{ borrow.status | titlecase }}
+            </span>
           </div>
-          <div *ngIf="borrow.status === 'pending'">
-            <span class="badge bg-warning text-dark">Pending Approval</span>
+          
+          <div class="book-info-grid mb-3">
+            <div class="info-item">
+              <i class="fas fa-calendar-alt text-muted me-2"></i>
+              <span>Due: {{ borrow.dates.dueDate | date:'mediumDate' }}</span>
+            </div>
+            <div class="info-item">
+              <i class="fas fa-user text-muted me-2"></i>
+              <span>Lender: {{ borrow.lenderId.name }}</span>
+            </div>
+            <div class="info-item" *ngIf="borrow.status === 'approved'">
+              <i class="fas fa-clock text-muted me-2"></i>
+              <span [ngClass]="{'text-danger fw-bold': isOverdue(borrow)}">
+                {{ daysLeft(borrow) }} days remaining
+              </span>
+            </div>
           </div>
-          <div *ngIf="borrow.status === 'rejected'">
-            <span class="badge bg-danger">Rejected</span>
-          </div>
-          <div *ngIf="borrow.status === 'returned'">
-            <span class="badge bg-secondary">Returned</span>
+          
+          <div class="d-flex justify-content-end mt-3">
+            <button *ngIf="borrow.status === 'approved'" class="btn btn-outline-success btn-sm" (click)="markAsReturned(borrow)">
+              <i class="fas fa-check-circle me-2"></i>Mark as Returned
+            </button>
+            <button *ngIf="borrow.status === 'pending'" class="btn btn-outline-secondary btn-sm" (click)="cancelRequest(borrow)">
+              <i class="fas fa-times-circle me-2"></i>Cancel Request
+            </button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div *ngIf="error" class="alert alert-danger mt-4">{{ error }}</div>
+  <div *ngIf="error" class="alert alert-danger mt-4">
+    <i class="fas fa-exclamation-triangle me-2"></i>{{ error }}
+  </div>
 </div>

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BorrowService } from '../../../core/services/borrow.service';
 import { BookService } from '../../../core/services/book.service';
 import { Book } from '../../../core/models/book.model';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-request-book',
@@ -16,6 +17,8 @@ export class RequestBookComponent implements OnInit {
   dueDate: string = '';
   message: string = '';
   error: string = '';
+  loading = true;
+  backendUrl = environment.backendUrl;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,9 +30,27 @@ export class RequestBookComponent implements OnInit {
   ngOnInit(): void {
     this.bookId = this.route.snapshot.paramMap.get('id')!;
     this.bookService.getBookById(this.bookId).subscribe({
-      next: (book) => this.book = book,
-      error: () => this.error = 'Failed to load book details.'
+      next: (book) => {
+        this.book = book;
+        this.loading = false;
+      },
+      error: () => {
+        this.error = 'Failed to load book details.';
+        this.loading = false;
+      }
     });
+  }
+
+  getImageUrl(): string {
+    if (!this.book?.image) {
+      return 'assets/default-book.jpg';
+    }
+    // If the image path is already absolute, return as is
+    if (this.book.image.startsWith('http')) {
+      return this.book.image;
+    }
+    // Otherwise, prepend backend URL
+    return `${this.backendUrl}/${this.book.image.replace(/\\/g, '/')}`;
   }
 
   requestBorrow(): void {

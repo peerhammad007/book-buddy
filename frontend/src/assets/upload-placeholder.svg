@@ -1,0 +1,9 @@
+<svg width="200" height="150" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M45 40 L155 40 L155 120 L45 120 z" fill="none" stroke="#6c757d" stroke-width="2" stroke-dasharray="5 5"/>
+  <rect x="80" y="55" width="40" height="50" fill="#f0f0f0" rx="2"/>
+  <rect x="85" y="60" width="30" height="5" fill="#0d6efd" rx="1"/>
+  <rect x="85" y="70" width="30" height="3" fill="#6c757d" rx="1"/>
+  <rect x="85" y="75" width="20" height="3" fill="#6c757d" rx="1"/>
+  <rect x="85" y="85" width="30" height="15" fill="#f8f9fa" rx="1"/>
+  <text x="100" y="130" text-anchor="middle" fill="#6c757d" font-family="Arial" font-size="12">Drop files here or click to upload</text>
+</svg>

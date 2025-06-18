@@ -1,27 +1,86 @@
-<div class="container mt-5 book-list-container">
-  <h2 class="mb-4 text-center">Available Books</h2>
+<div class="container-fluid mt-5 book-list-container">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+    <h2>Available Books</h2>
+    
+    <!-- Add filters -->
+    <div class="filters d-flex gap-2 flex-wrap">
+      <div class="input-group">
+        <span class="input-group-text bg-light border-end-0">
+          <i class="fas fa-search text-muted"></i>
+        </span>
+        <input 
+          type="text" 
+          class="form-control border-start-0" 
+          placeholder="Search books..." 
+          [(ngModel)]="searchTerm"
+          (input)="filterBooks()">
+      </div>
+      
+      <select class="form-select" [(ngModel)]="selectedGenre" (change)="filterBooks()">
+        <option value="">All Genres</option>
+        <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+      </select>
+      
+      <select class="form-select" [(ngModel)]="sortOption" (change)="sortBooks()">
+        <option value="newest">Newest First</option>
+        <option value="title-asc">Title A-Z</option>
+        <option value="title-desc">Title Z-A</option>
+        <option value="author-asc">Author A-Z</option>
+      </select>
+    </div>
+  </div>
 
-  <!-- Bootstrap Spinner -->
-  <div *ngIf="isLoading" class="d-flex justify-content-center my-5">
-    <div class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
+  <!-- Loading Skeletons -->
+  <div *ngIf="isLoading" class="row">
+    <div class="col-md-4 mb-4" *ngFor="let i of [1, 2, 3, 4, 5, 6]">
+      <div class="skeleton-card"></div>
     </div>
   </div>
 
   <!-- Book Grid -->
-  <div class="row" *ngIf="!isLoading && books.length">
-    <div class="col-md-4 mb-4" *ngFor="let book of books">
-      <app-book-card [book]="book"></app-book-card>
-      <div class="d-flex justify-content-center mt-2" *ngIf="!isBookOwner(book)">
-        <button class="btn btn-success btn-sm" (click)="openBorrowDialog(book)" [disabled]="hasRequested(book)">
-          {{ hasRequested(book) ? 'Request Pending/Active' : 'Borrow' }}
-        </button>
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4" *ngIf="!isLoading && books.length">
+    <div class="col" *ngFor="let book of books">
+      <div class="book-wrapper">
+        <app-book-card [book]="book"></app-book-card>
+        <div class="d-flex justify-content-center mt-2" *ngIf="!isBookOwner(book) && book.availability === 'available'">
+          <button 
+            class="btn btn-primary w-100" 
+            (click)="openBorrowDialog(book)" 
+            [disabled]="hasRequested(book)"
+            [ngClass]="{'btn-secondary': hasRequested(book)}">
+            <i class="fas" [ngClass]="hasRequested(book) ? 'fa-clock' : 'fa-book-reader'"></i>
+            {{ hasRequested(book) ? 'Request Pending' : 'Borrow this book' }}
+          </button>
+        </div>
+        <div class="btn w-100 btn-outline-secondary disabled" *ngIf="!isBookOwner(book) && book.availability !== 'available'">
+          <i class="fas fa-lock"></i> Currently unavailable
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- No Books Message -->
-  <p *ngIf="!isLoading && books.length === 0" class="text-center text-muted">
-    No books available at the moment.
-  </p>
+  <!-- Empty State -->  <div class="empty-state text-center py-5" *ngIf="!isLoading && (!books || books.length === 0)">
+    <svg width="150" height="120" viewBox="0 0 200 150" fill="none" xmlns="http://www.w3.org/2000/svg" class="mb-3">
+      <rect x="20" y="30" width="160" height="100" fill="#f0f0f0" rx="5"/>
+      <rect x="30" y="40" width="20" height="80" fill="#0d6efd" rx="2"/>
+      <rect x="55" y="40" width="15" height="80" fill="#6c757d" rx="2"/>
+      <rect x="75" y="40" width="25" height="80" fill="#198754" rx="2"/>
+      <rect x="105" y="40" width="10" height="80" fill="#dc3545" rx="2"/>
+      <rect x="120" y="40" width="18" height="80" fill="#ffc107" rx="2"/>
+      <rect x="143" y="40" width="22" height="80" fill="#0dcaf0" rx="2"/>
+      <path d="M20 125 L180 125 L180 130 L20 130 z" fill="#6c757d"/>
+    </svg>
+    <h3>No books available</h3>
+    <p class="text-muted">Be the first to add a book to our community!</p>
+    <button class="btn btn-primary mt-2" routerLink="/books/add" *ngIf="isLender">Add a Book</button>
+  </div>
+  
+  <!-- Floating Add Button for Lenders -->
+  <button 
+    *ngIf="isLender" 
+    class="btn btn-lg btn-primary rounded-circle floating-add-btn" 
+    routerLink="/books/add" 
+    title="Add a new book">
+    <i class="fas fa-plus"></i>
+  </button>
 </div>

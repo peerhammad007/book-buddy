@@ -4,6 +4,7 @@ export interface Book {
   author: string;
   genre?: string;
   condition?: string;
+  description?: string;
   ownerId: {
     _id: string;
     name: string;

@@ -1,0 +1,52 @@
+.book-list-container {
+  position: relative;
+  padding-bottom: 80px;
+}
+
+.book-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.filters {
+  min-width: 280px;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  .filters .form-select,
+  .filters .input-group {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+}
+
+.empty-state {
+  background-color: var(--background-light);
+  border-radius: 8px;
+  padding: 3rem;
+}
+
+.floating-add-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 60px;
+  height: 60px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.floating-add-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+}

@@ -1,0 +1,54 @@
+.borrow-card {
+  border: none;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+  border-left: 5px solid transparent;
+}
+
+.borrow-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Color coding the borrow cards based on status */
+.borrow-card:has(.status-badge-approved) {
+  border-left-color: #28a745;
+}
+
+.borrow-card:has(.status-badge-pending) {
+  border-left-color: #ffc107;
+}
+
+.borrow-card:has(.status-badge-rejected) {
+  border-left-color: #dc3545;
+}
+
+.borrow-card:has(.status-badge-returned) {
+  border-left-color: #6c757d;
+}
+
+.book-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+}
+
+.filter-controls {
+  min-width: 200px;
+}
+
+@media (max-width: 576px) {
+  .filter-controls {
+    margin-top: 1rem;
+    width: 100%;
+  }
+  
+  .book-info-grid {
+    grid-template-columns: 1fr;
+  }
+}

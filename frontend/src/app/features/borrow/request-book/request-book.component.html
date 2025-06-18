@@ -1,12 +1,58 @@
-<div class="container mt-5" *ngIf="book">
-  <h3>Request to Borrow: {{ book.title }}</h3>
-  <p><strong>Author:</strong> {{ book.author }}</p>
-  <p><strong>Owner:</strong> {{ book.ownerId.name }}</p>
-  <div class="mb-3">
-    <label for="dueDate" class="form-label">Due Date</label>
-    <input id="dueDate" type="date" class="form-control" [(ngModel)]="dueDate" />
+<div class="container mt-5" *ngIf="loading">
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="skeleton-img mb-4"></div>
+        </div>
+        <div class="col-md-8">
+          <div class="skeleton-title mb-4"></div>
+          <div class="skeleton-text mb-3"></div>
+          <div class="skeleton-text mb-3"></div>
+          <div class="skeleton-text mb-3"></div>
+        </div>
+      </div>
+    </div>
   </div>
-  <button class="btn btn-success" (click)="requestBorrow()">Send Request</button>
-  <div class="text-success mt-2" *ngIf="message">{{ message }}</div>
-  <div class="text-danger mt-2" *ngIf="error">{{ error }}</div>
+</div>
+
+<div class="container mt-5" *ngIf="!loading && book">
+  <div class="card shadow">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <img [src]="getImageUrl()" class="img-fluid rounded" alt="{{ book.title }}">
+        </div>
+        <div class="col-md-8">
+          <h3 class="card-title">{{ book.title }}</h3>
+          <p class="text-muted">by {{ book.author }}</p>
+          <hr>
+          <p><strong>Owner:</strong> {{ book.ownerId.name }}</p>
+          <p><strong>Genre:</strong> {{ book.genre }}</p>
+          <p><strong>Condition:</strong> {{ book.condition }}</p>
+          
+          <form class="mt-4">
+            <div class="mb-3">
+              <label for="dueDate" class="form-label">When will you return it?</label>
+              <input id="dueDate" type="date" class="form-control" [(ngModel)]="dueDate" name="dueDate">
+              <div class="form-text">Please choose a reasonable return date</div>
+            </div>
+            <button type="button" class="btn btn-primary" (click)="requestBorrow()">Send Request</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="alert alert-success mt-3" *ngIf="message">{{ message }}</div>
+  <div class="alert alert-danger mt-3" *ngIf="error">{{ error }}</div>
+</div>
+
+<div class="container mt-5" *ngIf="!loading && !book && error">
+  <div class="alert alert-danger">
+    <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+  </div>
+  <div class="text-center mt-4">
+    <button class="btn btn-outline-primary" routerLink="/books">Back to Books</button>
+  </div>
 </div>

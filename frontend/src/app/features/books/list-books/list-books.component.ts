@@ -13,9 +13,17 @@ import { BorrowService } from '../../../core/services/borrow.service';
 })
 export class ListBooksComponent implements OnInit {
   books: Book[] = [];
+  allBooks: Book[] = []; // Store all books for filtering
   isLoading = true;
   currentUserId: string | null = null;
   requestedBookIds = new Set<string>();
+  isLender = false;
+  
+  // New properties for filters
+  searchTerm = '';
+  selectedGenre = '';
+  sortOption = 'newest';
+  genres: string[] = [];
 
   constructor(
     private bookService: BookService,
@@ -25,10 +33,24 @@ export class ListBooksComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // Check if user is a lender
+    const user = this.authService.getCurrentUser();
+    this.isLender = user?.isLender || false;
+    
     this.bookService.getBooks().subscribe({
       next: (data) => {
-        this.books = data;
+        this.allBooks = data;
+        this.books = [...data];
         this.isLoading = false;
+        
+        // Extract unique genres
+        const genreSet = new Set<string>();
+        this.allBooks.forEach(book => {
+          if (book.genre) {
+            genreSet.add(book.genre);
+          }
+        });
+        this.genres = Array.from(genreSet).sort();
       },
       error: (err) => {
         console.error('Error fetching books:', err);
@@ -55,6 +77,7 @@ export class ListBooksComponent implements OnInit {
       });
     }
   }
+  
   isBookOwner(book: Book): boolean {
     return book.ownerId && book.ownerId._id === this.currentUserId;
   }
@@ -67,5 +90,43 @@ export class ListBooksComponent implements OnInit {
     // Navigate to the borrow/request-book component with the book ID
     this.router.navigate(['/borrow/request-book', book._id]);
   }
-
+  
+  // Filter books based on search term and genre
+  filterBooks(): void {
+    let filteredBooks = [...this.allBooks];
+    
+    if (this.searchTerm.trim()) {
+      const search = this.searchTerm.trim().toLowerCase();
+      filteredBooks = filteredBooks.filter(book => 
+        book.title.toLowerCase().includes(search) || 
+        book.author.toLowerCase().includes(search) ||
+        (book.description && book.description.toLowerCase().includes(search))
+      );
+    }
+    
+    if (this.selectedGenre) {
+      filteredBooks = filteredBooks.filter(book => book.genre === this.selectedGenre);
+    }
+    
+    this.books = filteredBooks;
+    this.sortBooks();
+  }
+  
+  // Sort books based on selected option
+  sortBooks(): void {
+    switch (this.sortOption) {
+      case 'newest':
+        this.books.sort((a, b) => new Date(b.createdAt || '').getTime() - new Date(a.createdAt || '').getTime());
+        break;
+      case 'title-asc':
+        this.books.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'title-desc':
+        this.books.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      case 'author-asc':
+        this.books.sort((a, b) => a.author.localeCompare(b.author));
+        break;
+    }
+  }
 }

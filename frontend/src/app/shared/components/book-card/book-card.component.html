@@ -1,4 +1,6 @@
-<div class="card book-card mb-4 shadow-sm" (click)="viewDetails()" style="cursor: pointer;">
+<div class="card book-card mb-4 shadow-sm hover-effect" (click)="viewDetails()" style="cursor: pointer;">
+  <div class="book-status-badge" *ngIf="book.availability === 'available'">Available</div>
+  <div class="book-status-badge unavailable" *ngIf="book.availability !== 'available'">On Loan</div>
   <img [src]="getImageUrl()" class="card-img-top" alt="{{ book.title }}" />
 
   <div class="card-body">
@@ -10,15 +12,16 @@
     <h6 class="card-subtitle mb-2 text-muted">{{ book.author }}</h6>
     <p class="card-text"><strong>Genre:</strong> {{ book.genre }}</p>
     <p class="card-text"><strong>Condition:</strong> {{ book.condition }}</p>
-    <div class="mt-2">
-      <span class="badge"
-        [ngClass]="{
-          'bg-success': book.availability === 'available',
-          'bg-secondary': book.availability === 'on-loan'
-        }"
-        style="font-size: 0.9em;">
-        {{ book.availability === 'available' ? 'Available' : 'On Loan' }}
-      </span>
+    <div class="mt-auto">
+      <button *ngIf="book.availability === 'available'" class="btn btn-sm btn-primary">View Details</button>
+      <button *ngIf="book.availability !== 'available'" class="btn btn-sm btn-outline-secondary">See Details</button>
     </div>
   </div>
+</div>
+
+<div class="skeleton-card" *ngIf="!book">
+  <div class="skeleton-img"></div>
+  <div class="skeleton-title"></div>
+  <div class="skeleton-text"></div>
+  <div class="skeleton-text"></div>
 </div>

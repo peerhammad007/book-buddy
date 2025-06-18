@@ -1,0 +1,80 @@
+.dashboard-container {
+  min-height: calc(100vh - 60px); /* Adjust based on your navbar height */
+  border-radius: 8px;
+}
+
+.welcome-banner {
+  background: linear-gradient(135deg, var(--primary-color), #004cb3);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-banner::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200px;
+  height: 200px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-initial {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.action-card {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  height: 100%;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.action-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-color);
+}
+
+.action-card i {
+  transition: transform 0.3s ease;
+}
+
+.action-card:hover i {
+  transform: scale(1.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 1rem !important;
+  }
+  
+  .welcome-banner {
+    padding: 1.5rem !important;
+  }
+
+  .row-cols-md-2 > * {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  
+  .action-card {
+    margin-bottom: 1rem;
+  }
+}
