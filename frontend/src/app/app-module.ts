@@ -3,6 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import {CommonModule} from '@angular/common';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/divider';
 
 import { AppRoutingModule } from './app-routing-module';
 import { RouterModule } from '@angular/router';
@@ -47,7 +51,11 @@ import { ProfileComponent } from './features/profile/profile.component';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    RouterModule
+    RouterModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatIcon,
+    MatDivider
   ],
   providers: [
     provideBrowserGlobalErrorListeners(),
