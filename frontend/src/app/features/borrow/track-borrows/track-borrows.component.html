@@ -78,11 +78,11 @@
               </span>
             </div>
           </div>
-          
-          <div class="d-flex justify-content-end mt-3">
-            <button *ngIf="borrow.status === 'approved'" class="btn btn-outline-success btn-sm" (click)="markAsReturned(borrow)">
-              <i class="fas fa-check-circle me-2"></i>Mark as Returned
-            </button>
+            <div class="d-flex justify-content-end mt-3">
+            <!-- Borrowers can only cancel pending requests, not mark books as returned -->            <div *ngIf="borrow.status === 'approved'" class="text-info small">
+              <i class="fas fa-info-circle me-2"></i>Please return this book to the lender by the due date.
+              <br>The lender will mark it as returned once received.
+            </div>
             <button *ngIf="borrow.status === 'pending'" class="btn btn-outline-secondary btn-sm" (click)="cancelRequest(borrow)">
               <i class="fas fa-times-circle me-2"></i>Cancel Request
             </button>

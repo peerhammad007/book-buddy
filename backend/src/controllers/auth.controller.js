@@ -4,7 +4,6 @@ const generateToken = require('../utils/generateToken');
 // @route POST /api/v1/auth/register
 exports.register = async (req, res) => {
   const { name, email, password, isLender, bio } = req.body;
-
   try {
     const userExists = await User.findOne({ email });
     if (userExists) return res.status(400).json({ message: 'User already exists' });
@@ -14,7 +13,7 @@ exports.register = async (req, res) => {
       name,
       email,
       password,
-      isLender: isLender === 'true',
+      isLender: true, // Always set to true to allow all users to lend books
       bio,
     };
 

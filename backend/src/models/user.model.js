@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  isLender: { type: Boolean, default: false },
+  isLender: { type: Boolean, default: true }, // Default to true so all users can lend books
   profileImg: { type: String },
   bio: { type: String },
   ratings: [ratingSchema]

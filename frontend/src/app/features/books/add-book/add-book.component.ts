@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BookService } from '../../../core/services/book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '../../../core/models/book.model';
+import { AuthService } from '../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-add-book',
@@ -17,12 +18,12 @@ export class AddBookComponent implements OnInit {
   successMessage: string = '';
   isEditMode: boolean = false;
   bookId: string | null = null;
-
   constructor(
     private fb: FormBuilder,
     private bookService: BookService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private authService: AuthService
   ) {
     this.bookForm = this.fb.group({
       title: ['', Validators.required],
@@ -34,17 +35,24 @@ export class AddBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.bookId;
-
-    if (this.isEditMode && this.bookId) {
+    this.isEditMode = !!this.bookId;    if (this.isEditMode && this.bookId) {
       this.bookService.getBookById(this.bookId).subscribe({
         next: (book: Book) => {
-          this.bookForm.patchValue({
-            title: book.title,
-            author: book.author,
-            genre: book.genre,
-            condition: book.condition
-          });
+          // Verify book ownership before allowing edit
+          const currentUser = this.authService.getCurrentUser();
+          if (currentUser && book.ownerId && book.ownerId._id === currentUser._id) {
+            this.bookForm.patchValue({
+              title: book.title,
+              author: book.author,
+              genre: book.genre,
+              condition: book.condition
+            });
+          } else {
+            this.errorMessage = 'You can only edit books that you own.';
+            setTimeout(() => {
+              this.router.navigate(['/books/manage']);
+            }, 2000);
+          }
         },
         error: () => {
           this.errorMessage = 'Failed to load book details.';

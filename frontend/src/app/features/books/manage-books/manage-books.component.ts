@@ -19,15 +19,15 @@ export class ManageBooksComponent implements OnInit {
     private bookService: BookService,
     private authService: AuthService,
     private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    const token = this.authService.getToken();
-    if (token) {
-      const userId = this.parseUserIdFromToken(token);
-      this.bookService.getBooks({ ownerId: userId }).subscribe({
+  ) {}  ngOnInit(): void {
+    const currentUser = this.authService.getCurrentUser();
+    if (currentUser && currentUser._id) {
+      this.bookService.getBooks().subscribe({
         next: (res) => {
-          this.books = res;
+          // Filter to only include books owned by the current user
+          this.books = res.filter(book => 
+            book.ownerId && book.ownerId._id === currentUser._id
+          );
           this.loading = false;
         },
         error: () => {
@@ -35,26 +35,39 @@ export class ManageBooksComponent implements OnInit {
           this.loading = false;
         }
       });
+    } else {
+      this.errorMessage = 'User authentication error';
+      this.loading = false;
     }
-  }
-
-  parseUserIdFromToken(token: string): string {
-    const payload = JSON.parse(atob(token.split('.')[1]));
-    return payload.id || payload._id;
+  }  isBookOwner(book: Book): boolean {
+    const currentUser = this.authService.getCurrentUser();
+    return !!currentUser && !!book.ownerId && book.ownerId._id === currentUser._id;
   }
 
   editBook(bookId: string): void {
-    this.router.navigate(['/books/edit', bookId]);
+    const book = this.books.find(b => b._id === bookId);
+    if (book && this.isBookOwner(book)) {
+      this.router.navigate(['/books/edit', bookId]);
+    } else {
+      this.errorMessage = 'You can only edit books that you own.';
+    }
   }
 
   deleteBook(bookId: string): void {
+    const book = this.books.find(b => b._id === bookId);
+    if (!book || !this.isBookOwner(book)) {
+      this.errorMessage = 'You can only delete books that you own.';
+      return;
+    }
+    
     if (confirm('Are you sure you want to delete this book?')) {
       this.bookService.deleteBook(bookId).subscribe({
         next: () => {
           this.books = this.books.filter(book => book._id !== bookId);
+          this.errorMessage = ''; // Clear any previous error
         },
-        error: () => {
-          this.errorMessage = 'Failed to delete book.';
+        error: (err) => {
+          this.errorMessage = err.error?.message || 'Failed to delete book.';
         }
       });
     }

@@ -24,11 +24,9 @@ exports.updateUser = async (req, res) => {
 
     if (req.user._id.toString() !== user._id.toString()) {
       return res.status(403).json({ message: 'Unauthorized' });
-    }
-
-    user.name = name || user.name;
+    }    user.name = name || user.name;
     user.bio = bio || user.bio;
-    user.isLender = isLender ?? user.isLender;
+    user.isLender = true; // All users are now lenders by default
 
     if (req.file) {
       user.profileImg = req.file.path;

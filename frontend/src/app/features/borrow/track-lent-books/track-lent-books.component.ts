@@ -21,12 +21,11 @@ export class TrackLentBooksComponent implements OnInit {
   ngOnInit(): void {
     this.fetchLentBorrows();
   }
-
   fetchLentBorrows(): void {
     this.loading = true;
-    this.borrowService.getBorrowHistory().subscribe({
+    this.borrowService.getLentBooks().subscribe({
       next: (data) => {
-        this.lentBorrows = data.filter(b => b.lenderId);
+        this.lentBorrows = data;
         this.applyFilter();
         this.loading = false;
       },
@@ -44,8 +43,12 @@ export class TrackLentBooksComponent implements OnInit {
       this.filteredLentBorrows = this.lentBorrows.filter(b => b.status === this.statusFilter);
     }
   }
-
   markAsReturned(requestId: string) {
+    // Add confirmation dialog
+    if (!confirm('Are you sure you want to mark this book as returned? This action cannot be undone.')) {
+      return;
+    }
+    
     this.borrowService.markAsReturned(requestId).subscribe({
       next: () => {
         this.actionMessage = 'Book marked as returned!';

@@ -14,10 +14,9 @@ import { BorrowService } from '../../../core/services/borrow.service';
 export class ListBooksComponent implements OnInit {
   books: Book[] = [];
   allBooks: Book[] = []; // Store all books for filtering
-  isLoading = true;
-  currentUserId: string | null = null;
+  isLoading = true;  currentUserId: string | null = null;
   requestedBookIds = new Set<string>();
-  isLender = false;
+  isLender = true; // All users are now lenders by default
   
   // New properties for filters
   searchTerm = '';
@@ -32,10 +31,8 @@ export class ListBooksComponent implements OnInit {
     private borrowService: BorrowService) {
   }
 
-  ngOnInit(): void {
-    // Check if user is a lender
+  ngOnInit(): void {    // Get current user
     const user = this.authService.getCurrentUser();
-    this.isLender = user?.isLender || false;
     
     this.bookService.getBooks().subscribe({
       next: (data) => {

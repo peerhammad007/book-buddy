@@ -83,7 +83,7 @@ exports.markAsReturned = async (req, res) => {
   }
 };
 
-// @desc Get borrow history for current user
+// @desc Get all borrow history for current user (combined)
 // @route GET /api/v1/borrow/history
 exports.getBorrowHistory = async (req, res) => {
   try {
@@ -97,5 +97,58 @@ exports.getBorrowHistory = async (req, res) => {
     res.json(requests);
   } catch (err) {
     res.status(500).json({ message: 'Failed to fetch history', error: err.message });
+  }
+};
+
+// @desc Get borrower's requests (for TrackBorrowsComponent)
+// @route GET /api/v1/borrow/my-borrows
+exports.getMyBorrows = async (req, res) => {
+  try {
+    const requests = await BorrowRequest.find({
+      borrowerId: req.user._id,
+    })
+      .populate('bookId', 'title author')
+      .populate('borrowerId', 'name')
+      .populate('lenderId', 'name');
+
+    res.json(requests);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch borrows', error: err.message });
+  }
+};
+
+// @desc Get pending requests for lender (for LenderRequestsComponent)
+// @route GET /api/v1/borrow/pending-requests
+exports.getPendingRequests = async (req, res) => {
+  try {
+    const requests = await BorrowRequest.find({
+      lenderId: req.user._id,
+      status: 'pending'
+    })
+      .populate('bookId', 'title author')
+      .populate('borrowerId', 'name')
+      .populate('lenderId', 'name');
+
+    res.json(requests);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch pending requests', error: err.message });
+  }
+};
+
+// @desc Get approved/returned books (for TrackLentBooksComponent)
+// @route GET /api/v1/borrow/lent-books
+exports.getLentBooks = async (req, res) => {
+  try {
+    const requests = await BorrowRequest.find({
+      lenderId: req.user._id,
+      status: { $in: ['approved', 'returned'] }
+    })
+      .populate('bookId', 'title author')
+      .populate('borrowerId', 'name')
+      .populate('lenderId', 'name');
+
+    res.json(requests);
+  } catch (err) {
+    res.status(500).json({ message: 'Failed to fetch lent books', error: err.message });
   }
 };

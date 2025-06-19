@@ -21,23 +21,22 @@
           <a class="nav-link" routerLink="/books" routerLinkActive="active">
             <i class="fas fa-book me-2"></i>Browse Books
           </a>
-        </li>
-        <li class="nav-item" *ngIf="user?.isLender">
+        </li>        <li class="nav-item">
           <a class="nav-link" routerLink="/books/add" routerLinkActive="active">
             <i class="fas fa-plus-circle me-2"></i>Add Book
           </a>
         </li>
-        <li class="nav-item" *ngIf="user?.isLender">
+        <li class="nav-item">
           <a class="nav-link" routerLink="/books/manage" routerLinkActive="active">
             <i class="fas fa-tasks me-2"></i>Manage Books
           </a>
         </li>
-        <li class="nav-item" *ngIf="user?.isLender">
+        <li class="nav-item">
           <a class="nav-link" routerLink="/borrow/lender-requests" routerLinkActive="active">
             <i class="fas fa-inbox me-2"></i>Requests
           </a>
         </li>
-        <li class="nav-item" *ngIf="!user?.isLender">
+        <li class="nav-item">
           <a class="nav-link" routerLink="/borrow/track-borrows" routerLinkActive="active">
             <i class="fas fa-book-reader me-2"></i>My Borrows
           </a>

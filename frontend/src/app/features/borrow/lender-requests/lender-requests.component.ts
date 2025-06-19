@@ -19,13 +19,11 @@ export class LenderRequestsComponent implements OnInit {
   ngOnInit(): void {
     this.fetchRequests();
   }
-
   fetchRequests(): void {
     this.loading = true;
-    this.borrowService.getBorrowHistory().subscribe({
+    this.borrowService.getPendingRequests().subscribe({
       next: (data) => {
-        // Only show requests where the user is the lender and status is pending
-        this.requests = data.filter(r => r.lenderId && r.status === 'pending');
+        this.requests = data;
         this.loading = false;
       },
       error: (err) => {
@@ -34,11 +32,11 @@ export class LenderRequestsComponent implements OnInit {
       }
     });
   }
-
   respond(requestId: string, status: 'approved' | 'rejected') {
     this.borrowService.respondToRequest(requestId, status).subscribe({
       next: () => {
         this.actionMessage = `Request ${status}.`;
+        // Refresh the list to remove the item from pending requests
         this.fetchRequests();
       },
       error: (err) => {

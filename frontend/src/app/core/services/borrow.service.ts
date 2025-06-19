@@ -27,9 +27,23 @@ export class BorrowService {
   markAsReturned(requestId: string): Observable<any> {
     return this.http.put(`${this.apiUrl}/${requestId}/return`, {});
   }
-
   // Get borrow history for the current user
   getBorrowHistory(): Observable<BorrowRequest[]> {
     return this.http.get<BorrowRequest[]>(`${this.apiUrl}/history`);
+  }
+  
+  // Get borrower's requests
+  getMyBorrows(): Observable<BorrowRequest[]> {
+    return this.http.get<BorrowRequest[]>(`${this.apiUrl}/my-borrows`);
+  }
+  
+  // Get pending requests for lender
+  getPendingRequests(): Observable<BorrowRequest[]> {
+    return this.http.get<BorrowRequest[]>(`${this.apiUrl}/pending-requests`);
+  }
+  
+  // Get approved/returned books for lender
+  getLentBooks(): Observable<BorrowRequest[]> {
+    return this.http.get<BorrowRequest[]>(`${this.apiUrl}/lent-books`);
   }
 }

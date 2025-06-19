@@ -12,12 +12,16 @@
   </div>
 
   <div *ngIf="!loading && books.length > 0" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-4">
-    <div class="col d-flex" *ngFor="let book of books">
-      <div class="w-100 d-flex flex-column align-items-stretch">
-        <app-book-card [book]="book"></app-book-card>
+    <div class="col d-flex" *ngFor="let book of books">      <div class="w-100 d-flex flex-column align-items-stretch">
+        <div class="position-relative">
+          <app-book-card [book]="book"></app-book-card>
+          <div *ngIf="isBookOwner(book)" class="position-absolute top-0 end-0 m-2">
+            <span class="badge bg-success">You own this book</span>
+          </div>
+        </div>
         <div class="d-flex justify-content-center gap-2 mt-2">
-          <button class="btn btn-sm btn-primary" (click)="editBook(book._id)">Edit</button>
-          <button class="btn btn-sm btn-danger" (click)="deleteBook(book._id)">Delete</button>
+          <button class="btn btn-sm btn-primary" (click)="editBook(book._id)" [disabled]="!isBookOwner(book)">Edit</button>
+          <button class="btn btn-sm btn-danger" (click)="deleteBook(book._id)" [disabled]="!isBookOwner(book)">Delete</button>
         </div>
       </div>
     </div>

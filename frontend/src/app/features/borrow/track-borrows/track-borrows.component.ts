@@ -22,13 +22,11 @@ export class TrackBorrowsComponent implements OnInit {
   ngOnInit(): void {
     this.loadBorrowHistory();
   }
-  
-  loadBorrowHistory(): void {
+    loadBorrowHistory(): void {
     this.loading = true;
-    this.borrowService.getBorrowHistory().subscribe({
+    this.borrowService.getMyBorrows().subscribe({
       next: (data) => {
-        // Only show borrows where the user is the borrower
-        this.borrows = data.filter(b => b.borrowerId);
+        this.borrows = data;
         this.applyFilter();
         this.loading = false;
       },
@@ -46,8 +44,7 @@ export class TrackBorrowsComponent implements OnInit {
       this.filteredBorrows = this.borrows.filter(b => b.status === this.statusFilter);
     }
   }
-  
-  daysLeft(borrow: BorrowRequest): number {
+    daysLeft(borrow: BorrowRequest): number {
     if (borrow.status !== 'approved' || !borrow.dates.dueDate) return 0;
     
     const dueDate = new Date(borrow.dates.dueDate);
@@ -67,51 +64,10 @@ export class TrackBorrowsComponent implements OnInit {
     return this.daysLeft(borrow) < 0;
   }
   
-  markAsReturned(borrow: BorrowRequest): void {
-    if (!confirm('Are you sure you want to mark this book as returned?')) {
-      return;
-    }
-    
-    this.isLoading = true;
-    this.borrowService.markAsReturned(borrow._id).subscribe({
-      next: () => {
-        // Update the status locally
-        borrow.status = 'returned';
-        borrow.dates.returnDate = new Date().toISOString();
-        this.isLoading = false;
-        this.applyFilter();
-      },
-      error: (err: HttpErrorResponse) => {
-        this.error = err.error?.message || 'Failed to mark as returned.';
-        this.isLoading = false;
-      }
-    });
-  }
-  
   cancelRequest(borrow: BorrowRequest): void {
-    if (!confirm('Are you sure you want to cancel this borrow request?')) {
-      return;
-    }
-    
-    // Since there's no cancelRequest method, let's use a workaround by rejecting the request
-    this.isLoading = true;
-    if (borrow.status === 'pending') {
-      // We can't cancel directly, so we'll mark it as returned
-      this.borrowService.markAsReturned(borrow._id).subscribe({
-        next: () => {
-          // Either remove the request or update its status based on your API
-          const index = this.borrows.findIndex(b => b._id === borrow._id);
-          if (index > -1) {
-            this.borrows.splice(index, 1);
-          }
-          this.isLoading = false;
-          this.applyFilter();
-        },
-        error: (err: HttpErrorResponse) => {
-          this.error = err.error?.message || 'Failed to cancel the request.';
-          this.isLoading = false;
-        }
-      });
-    }
+    // This is a placeholder for future implementation
+    this.error = "Canceling requests is not implemented yet.";
+    // In a real implementation, you would call an API endpoint to cancel the request
+    // For now, we'll just inform the user that this functionality isn't implemented
   }
 }

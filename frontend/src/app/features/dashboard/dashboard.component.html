@@ -14,7 +14,7 @@
   <!-- User welcome section -->
   <div class="welcome-banner p-4 mb-4 bg-primary text-white rounded shadow">
     <h2>Welcome, {{ user.name }}!</h2>
-    <p class="mb-0">{{ user.isLender ? 'Share your books with the community' : 'Find your next great read' }}</p>
+    <p class="mb-0">Share your books with the community and find your next great read!</p>
   </div>
   
   <!-- User info and quick actions in a grid -->
@@ -27,9 +27,7 @@
               <span class="user-initial">{{ user.name.charAt(0) }}</span>
             </div>
             <h5 class="card-title mb-0">Your Profile</h5>
-          </div>
-          <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
-          <p class="card-text"><strong>Role:</strong> <span class="status-badge" [ngClass]="user.isLender ? 'status-badge-approved' : 'status-badge-pending'">{{ user.isLender ? 'Lender' : 'Borrower' }}</span></p>
+          </div>          <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
           <p class="card-text" *ngIf="user.bio"><strong>Bio:</strong> {{ user.bio }}</p>
           <div class="mt-4">
             <a routerLink="/profile" class="btn btn-outline-primary">Edit Profile</a>
@@ -50,8 +48,7 @@
                 <a routerLink="/books" class="stretched-link"></a>
               </div>
             </div>
-            
-            <div class="col" *ngIf="user.isLender">
+              <div class="col">
               <div class="action-card p-3 bg-light rounded hover-effect">
                 <i class="fas fa-inbox fa-lg text-success mb-2"></i>
                 <h6>Borrow Requests</h6>
@@ -60,7 +57,7 @@
               </div>
             </div>
             
-            <div class="col" *ngIf="user.isLender">
+            <div class="col">
               <div class="action-card p-3 bg-light rounded hover-effect">
                 <i class="fas fa-share fa-lg text-info mb-2"></i>
                 <h6>Track Lent Books</h6>
@@ -69,7 +66,7 @@
               </div>
             </div>
             
-            <div class="col" *ngIf="user.isLender">
+            <div class="col">
               <div class="action-card p-3 bg-light rounded hover-effect">
                 <i class="fas fa-plus-circle fa-lg text-primary mb-2"></i>
                 <h6>Add a Book</h6>
@@ -78,7 +75,7 @@
               </div>
             </div>
             
-            <div class="col" *ngIf="!user.isLender">
+            <div class="col">
               <div class="action-card p-3 bg-light rounded hover-effect">
                 <i class="fas fa-book-open fa-lg text-warning mb-2"></i>
                 <h6>Track Borrowed Books</h6>
