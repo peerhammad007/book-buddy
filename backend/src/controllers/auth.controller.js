@@ -28,7 +28,6 @@ exports.register = async (req, res) => {
       name: user.name,
       email: user.email,
       profileImg: user.profileImg,
-      token: generateToken(user._id),
     });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });

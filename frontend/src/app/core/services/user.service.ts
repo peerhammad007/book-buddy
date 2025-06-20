@@ -58,9 +58,7 @@ export class UserService {
   }
 
   clearUser() {
-    this.user = null;
-    localStorage.removeItem('user');
-    this.userSubject.next(null);
+    this.setUser(null);
   }
 
 }

@@ -34,7 +34,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.authService.login(this.loginForm.value).subscribe({
         next: (res) => {
-          this.userService.setUser(res);
           this.router.navigate(['/dashboard'])
         },
         error: (err) => {

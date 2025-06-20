@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { User } from '../models/user.model';
+import { UserService } from '../services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,13 @@ import { User } from '../models/user.model';
 export class AuthService {
   private apiUrl = `${environment.apiUrl}/auth`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userService: UserService) { }
 
   login(credentials: { email: string; password: string }): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/login`, credentials).pipe(
       tap(user => {
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
+          this.userService.setUser(user);
         }
       })
     );
