@@ -26,6 +26,7 @@ import { TrackBorrowsComponent } from './features/borrow/track-borrows/track-bor
 import { LenderRequestsComponent } from './features/borrow/lender-requests/lender-requests.component';
 import { TrackLentBooksComponent } from './features/borrow/track-lent-books/track-lent-books.component';
 import { ProfileComponent } from './features/profile/profile.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 @NgModule({
   declarations: [
     App,
@@ -42,7 +43,8 @@ import { ProfileComponent } from './features/profile/profile.component';
     TrackBorrowsComponent,
     LenderRequestsComponent,
     TrackLentBooksComponent,
-    ProfileComponent
+    ProfileComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

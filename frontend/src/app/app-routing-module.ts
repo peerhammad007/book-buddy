@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { RegisterComponent } from './features/auth/register/register.component';
-import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
+// import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AddBookComponent } from './features/books/add-book/add-book.component';
 import { ManageBooksComponent } from './features/books/manage-books/manage-books.component';
@@ -18,18 +18,18 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
+  // { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'books/add', component: AddBookComponent, canActivate: [AuthGuard] },
   { path: 'books/manage', component: ManageBooksComponent, canActivate: [AuthGuard] },
 
   { path: 'books', component: ListBooksComponent, canActivate: [AuthGuard] },
-  { path: 'borrow/request-book/:id', component: RequestBookComponent },
-  { path: 'borrow/track-borrows', component: TrackBorrowsComponent },
-  { path: 'borrow/lender-requests', component: LenderRequestsComponent },
-  { path: 'borrow/track-lent-books', component: TrackLentBooksComponent },
-  { path: 'books/edit/:id', component: AddBookComponent },
-  { path: 'profile', component: ProfileComponent },
+  { path: 'borrow/request-book/:id', component: RequestBookComponent, canActivate: [AuthGuard] },
+  { path: 'borrow/track-borrows', component: TrackBorrowsComponent, canActivate: [AuthGuard] },
+  { path: 'borrow/lender-requests', component: LenderRequestsComponent, canActivate: [AuthGuard] },
+  { path: 'borrow/track-lent-books', component: TrackLentBooksComponent, canActivate: [AuthGuard] },
+  { path: 'books/edit/:id', component: AddBookComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
 
 
   // { path: 'books/:id', component: BookDetailComponent, canActivate: [AuthGuard]}

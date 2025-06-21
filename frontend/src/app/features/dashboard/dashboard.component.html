@@ -21,12 +21,12 @@
   <div class="row g-4">
     <div class="col-md-5">
       <div class="card shadow-sm h-100">
-        <div class="card-body">
-          <div class="d-flex align-items-center mb-3">
+        <div class="card-body">          <div class="d-flex align-items-center mb-3">
             <div class="user-avatar me-3">
-              <span class="user-initial">{{ user.name.charAt(0) }}</span>
+              <img *ngIf="user.profileImg" [src]="getProfileImageUrl(user.profileImg)" class="rounded-circle" alt="Profile Picture">
+              <span *ngIf="!user.profileImg" class="user-initial">{{ user.name.charAt(0) }}</span>
             </div>
-            <h5 class="card-title mb-0">Your Profile</h5>
+            <h5 class="card-title mb-0">My Profile</h5>
           </div>
           <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
           <p class="card-text" *ngIf="user.bio"><strong>Bio:</strong> {{ user.bio }}</p>
