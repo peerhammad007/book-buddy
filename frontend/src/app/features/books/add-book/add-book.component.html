@@ -1,5 +1,5 @@
 <div class="container mt-5" style="max-width: 600px;">
-  <h2 class="text-center mb-4">Add a New Book</h2>
+  <h2 class="text-center mb-4">{{ isEditMode ? 'Update Book' : 'Add a New Book' }}</h2>
 
   <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data"
     class="p-4 shadow-sm rounded bg-white">

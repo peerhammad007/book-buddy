@@ -35,7 +35,8 @@ export class AddBookComponent implements OnInit {
 
   ngOnInit(): void {
     this.bookId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.bookId;    if (this.isEditMode && this.bookId) {
+    this.isEditMode = !!this.bookId; 
+    if (this.isEditMode && this.bookId) {
       this.bookService.getBookById(this.bookId).subscribe({
         next: (book: Book) => {
           // Verify book ownership before allowing edit
