@@ -4,6 +4,7 @@ import { BookService } from '../../../core/services/book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Book } from '../../../core/models/book.model';
 import { AuthService } from '../../../core/auth/auth.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-add-book',
@@ -23,7 +24,7 @@ export class AddBookComponent implements OnInit {
     private bookService: BookService,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService
+    private userService: UserService
   ) {
     this.bookForm = this.fb.group({
       title: ['', Validators.required],
@@ -40,7 +41,7 @@ export class AddBookComponent implements OnInit {
       this.bookService.getBookById(this.bookId).subscribe({
         next: (book: Book) => {
           // Verify book ownership before allowing edit
-          const currentUser = this.authService.getCurrentUser();
+          const currentUser = this.userService.getCurrentUser();
           if (currentUser && book.ownerId && book.ownerId._id === currentUser._id) {
             this.bookForm.patchValue({
               title: book.title,

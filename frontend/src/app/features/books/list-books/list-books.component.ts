@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BookService } from '../../../core/services/book.service';
 import { Book } from '../../../core/models/book.model';
-import { AuthService } from '../../../core/auth/auth.service';
 import { Router } from '@angular/router';
 import { BorrowService } from '../../../core/services/borrow.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-list-books',
@@ -26,13 +26,12 @@ export class ListBooksComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private authService: AuthService,
+    private userService: UserService,
     private router: Router,
     private borrowService: BorrowService) {
   }
 
-  ngOnInit(): void {    // Get current user
-    const user = this.authService.getCurrentUser();
+  ngOnInit(): void { 
 
     this.bookService.getBooks().subscribe({
       next: (data) => {
@@ -54,10 +53,10 @@ export class ListBooksComponent implements OnInit {
         this.isLoading = false;
       }
     });
-    const token = this.authService.getToken();
-    if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      this.currentUserId = payload.id || payload._id;
+    // Get current user
+    const user = this.userService.getCurrentUser();
+    if (user) {
+      this.currentUserId = user._id;      
 
       // Fetch borrow requests for this user
       this.borrowService.getBorrowHistory().subscribe({

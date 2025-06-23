@@ -46,7 +46,7 @@ export class UserService {
     this.userSubject.next(user);
   }
 
-  getUser(): User | null {
+  getCurrentUser(): User | null {
     if (!this.user) {
       const userStr = localStorage.getItem('user');
       if (userStr) {

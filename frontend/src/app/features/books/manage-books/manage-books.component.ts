@@ -3,6 +3,7 @@ import { BookService } from '../../../core/services/book.service';
 import { Book } from '../../../core/models/book.model';
 import { AuthService } from '../../../core/auth/auth.service';
 import { Router } from '@angular/router';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-manage-books',
@@ -17,10 +18,10 @@ export class ManageBooksComponent implements OnInit {
 
   constructor(
     private bookService: BookService,
-    private authService: AuthService,
+    private userService: UserService,
     private router: Router
   ) {}  ngOnInit(): void {
-    const currentUser = this.authService.getCurrentUser();
+    const currentUser = this.userService.getCurrentUser();
     if (currentUser && currentUser._id) {
       this.bookService.getBooks().subscribe({
         next: (res) => {
@@ -40,7 +41,7 @@ export class ManageBooksComponent implements OnInit {
       this.loading = false;
     }
   }  isBookOwner(book: Book): boolean {
-    const currentUser = this.authService.getCurrentUser();
+    const currentUser = this.userService.getCurrentUser();
     return !!currentUser && !!book.ownerId && book.ownerId._id === currentUser._id;
   }
 
