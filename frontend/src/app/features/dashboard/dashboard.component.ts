@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../core/services/user.service';
 import { AuthService } from '../../core/auth/auth.service';
 import { User } from '../../core/models/user.model';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +29,11 @@ export class DashboardComponent implements OnInit {
   }
 
   getProfileImageUrl(filename: string): string {
-    return `${environment.backendUrl}/uploads/${filename}`;
+    // If already an absolute URL, return as is
+    if (filename.startsWith('http')) {
+      return filename;
+    }
+    // Otherwise, prepend backend URL
+    return `${environment.backendUrl}/${filename.replace(/\\/g, '/')}`;
   }
 }

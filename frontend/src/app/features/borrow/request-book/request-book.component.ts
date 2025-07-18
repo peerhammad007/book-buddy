@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BorrowService } from '../../../core/services/borrow.service';
 import { BookService } from '../../../core/services/book.service';
 import { Book } from '../../../core/models/book.model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-request-book',

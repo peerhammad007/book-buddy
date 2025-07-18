@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Book } from '../../../core/models/book.model';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-book-card',

@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
 
     // Add profile image if uploaded
     if (req.file) {
-      userData.profileImg = req.file.filename;
+      userData.profileImg = req.file.path;
     }
 
     const user = await User.create(userData);

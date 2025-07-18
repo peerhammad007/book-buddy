@@ -11,7 +11,10 @@ const borrowRoutes = require('./routes/borrow.routes');
 const app = express();
 
 // CORS Configuration
-const allowedOrigins = ['http://localhost:4200'];
+const allowedOrigins = [
+  'http://localhost:4200',
+  'https://backend-bookbuddy.onrender.com'
+];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -32,9 +35,6 @@ app.use(cors({
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// Serve uploaded images statically
-app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // API Routes
 app.use('/api/v1/auth', authRoutes);

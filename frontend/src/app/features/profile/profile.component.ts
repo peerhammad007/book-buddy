@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user.model';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../../environments/environment.prod';
 
 @Component({
   selector: 'app-profile',
