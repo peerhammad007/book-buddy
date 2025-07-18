@@ -13,7 +13,8 @@ const app = express();
 // CORS Configuration
 const allowedOrigins = [
   'http://localhost:4200',
-  'https://backend-bookbuddy.onrender.com'
+  'https://backend-bookbuddy.onrender.com',
+  'https://stellular-pegasus-65649f.netlify.app'
 ];
 
 app.use(cors({
@@ -41,6 +42,9 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/books', bookRoutes);
 app.use('/api/v1/borrow', borrowRoutes);
+app.get('/', (req, res) => {
+  res.send('Welcome to the BookBuddy API!');
+})
 
 // Error handling middleware
 app.use(errorHandler);
